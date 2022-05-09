@@ -150,7 +150,7 @@
 <li>Props 就是在 React Components 間傳遞的參數</li>
 <li>當我們有不只一層 Components 時，Props 就是父層與子層的溝通橋樑</li>
 </ol>
-<p>以下圖解兩種比較常用到的傳值方法，分別是父傳子與子傳父。若今天你的 Components 已經包到祖、父、子三個層級的話，就適用以下的情境圖唷！</p>
+<p>以下圖解兩種比較常用到的傳值方法，分別是父傳子與子傳父。若今天你的 Components 已經包到祖、父、子三個層級的話，就不適用以下的情境圖唷！</p>
 <br/>
 
 <h2 id="Props-在父子傳值時的使用方法"><a href="#Props-在父子傳值時的使用方法" class="headerlink" title="Props 在父子傳值時的使用方法"></a>Props 在父子傳值時的使用方法</h2><h3 id="1-從父傳到子"><a href="#1-從父傳到子" class="headerlink" title="1. 從父傳到子"></a>1. 從父傳到子</h3><p> <img src="/images/blog001.jpeg" alt="父傳子"></p>
@@ -168,7 +168,7 @@
 <h3 id="EX-Input-欄位輸入值，並將值回傳-API"><a href="#EX-Input-欄位輸入值，並將值回傳-API" class="headerlink" title="EX. Input 欄位輸入值，並將值回傳 API"></a>EX. Input 欄位輸入值，並將值回傳 API</h3><p>在子層有一 Input 欄位，使用者輸入數值後，我們把數值透過 function 傳回父層，讓父層可以取得此數值，並進一步將此數值傳給後端。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//父層</span><br><span class="line">const [data, setData] = useState([]);</span><br><span class="line"></span><br><span class="line">const handleSubmitData = () =&gt; &#123;</span><br><span class="line">    uploadDataAPI(data);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&lt;FormComponent setData=&#123;setData&#125;/&gt;</span><br><span class="line"></span><br><span class="line">//子層</span><br><span class="line">const FormComponent = (&#123; setData &#125;) =&gt; &#123;</span><br><span class="line">&lt;input</span><br><span class="line">    <span class="built_in">id</span>=<span class="string">&quot;input&quot;</span></span><br><span class="line">    <span class="built_in">type</span>=<span class="string">&quot;number&quot;</span></span><br><span class="line">    onChange=&#123;(event) =&gt; &#123;</span><br><span class="line">        setData(event.target.value);</span><br><span class="line">    &#125;&#125;</span><br><span class="line">/&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> default FormComponent;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>這兩種就是平常開發最常用的 props 傳值情境，希望圖解有幫助到大家，我也是多實作幾次才更能理解這些情境，菜鳥的路不簡單，我們一起繼續努力。有任何問題或是回饋都歡迎來信 <a href="mailto:&#x61;&#x77;&#97;&#110;&#x77;&#x61;&#110;&#57;&#52;&#x30;&#x32;&#x30;&#52;&#x40;&#x67;&#109;&#97;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;">&#x61;&#x77;&#97;&#110;&#x77;&#x61;&#110;&#57;&#52;&#x30;&#x32;&#x30;&#52;&#x40;&#x67;&#109;&#97;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;</a>，我是珊迪！</p>
+<p>這兩種就是平常開發最常用的 props 傳值情境，希望圖解有幫助到大家，我也是多實作幾次才更能理解這些情境，菜鳥的路不簡單，我們一起繼續努力。</p>
 
 </div> 
 
