@@ -169,15 +169,6 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//父層</span><br><span class="line">const [data, setData] = useState([]);</span><br><span class="line"></span><br><span class="line">const handleSubmitData = () =&gt; &#123;</span><br><span class="line">    uploadDataAPI(data);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&lt;FormComponent setData=&#123;setData&#125;/&gt;</span><br><span class="line"></span><br><span class="line">//子層</span><br><span class="line">const FormComponent = (&#123; setData &#125;) =&gt; &#123;</span><br><span class="line">&lt;input</span><br><span class="line">    <span class="built_in">id</span>=<span class="string">&quot;input&quot;</span></span><br><span class="line">    <span class="built_in">type</span>=<span class="string">&quot;number&quot;</span></span><br><span class="line">    onChange=&#123;(event) =&gt; &#123;</span><br><span class="line">        setData(event.target.value);</span><br><span class="line">    &#125;&#125;</span><br><span class="line">/&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> default FormComponent;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>這兩種就是平常開發最常用的 props 傳值情境，希望圖解有幫助到大家，我也是多實作幾次才更能理解這些情境，菜鳥的路不簡單，我們一起繼續努力。</p>
-<script src="https://utteranc.es/client.js"
-        repo="Leewanhsuan / Leewanhsuan.github.io"
-        issue-term="pathname"
-        theme="github-light"
-        crossorigin="anonymous"
-        async>
-</script>
-
-
 
 </div> 
 
