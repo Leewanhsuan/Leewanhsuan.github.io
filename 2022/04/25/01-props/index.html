@@ -199,9 +199,20 @@
 </div>
      
   
-  <{% if theme.git_talk.enabled and not is_index %}
-<div>{% include 'git-talk.swig' %}</div>
-{% endif %}>
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
 </article>
         </div>
       </div>
