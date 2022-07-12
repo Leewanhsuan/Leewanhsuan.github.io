@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://example.com/2022/07/12/04-typeScript-react/</loc>
+    <loc>http://example.com/2022/04/25/01-props/</loc>
     
     <lastmod>2022-07-12</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/2022/04/25/01-props/</loc>
+    <loc>http://example.com/2022/07/10/02-scroll-into-view/</loc>
     
     <lastmod>2022-07-12</lastmod>
     
@@ -29,7 +29,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/2022/07/10/02-scroll-into-view/</loc>
+    <loc>http://example.com/2022/07/12/04-typeScript-react/</loc>
     
     <lastmod>2022-07-12</lastmod>
     
@@ -61,20 +61,6 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/Scroll/</loc>
-    <lastmod>2022-07-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/tags/Scroll-in-to-view/</loc>
-    <lastmod>2022-07-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://example.com/tags/TypeScript/</loc>
     <lastmod>2022-07-12</lastmod>
     <changefreq>weekly</changefreq>
@@ -83,6 +69,20 @@
   
   <url>
     <loc>http://example.com/tags/Utility-Types/</loc>
+    <lastmod>2022-07-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/Scroll/</loc>
+    <lastmod>2022-07-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/Scroll-in-to-view/</loc>
     <lastmod>2022-07-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
