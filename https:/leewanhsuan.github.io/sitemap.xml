@@ -54,13 +54,6 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/Props/</loc>
-    <lastmod>2022-07-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://example.com/tags/Scroll/</loc>
     <lastmod>2022-07-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -69,6 +62,13 @@
   
   <url>
     <loc>http://example.com/tags/Scroll-in-to-view/</loc>
+    <lastmod>2022-07-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/Props/</loc>
     <lastmod>2022-07-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
