@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【筆記】AWS CCP (2) - 完善架構、責任與成本計價 | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/AWS/">
+                            AWS
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Certified-Cloud-Practitioner/">
+                            Certified Cloud Practitioner
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/%E9%9B%B2%E7%AB%AF%E7%9F%A5%E8%AD%98/">
+                            雲端知識
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【筆記】AWS CCP (2) - 完善架構、責任與成本計價
+            
+            
+        </div>
+        <span class="post-date">
+            8月 21, 2022
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <p>熟悉了基礎建設與常見的服務，這篇要來帶大家認識 AWS 的「完善架構」、「責任模型」以及「成本計價」。相對之下這幾個章節真的是比較八股且無聊，都是些需要特別背的內容，但這幾個主題也是 AWS 非常常考的不能放過唷！</p>
+<br/>
+
+<h2 id="完善架構-Well-Architecture"><a href="#完善架構-Well-Architecture" class="headerlink" title="完善架構 Well Architecture"></a>完善架構 Well Architecture</h2><p>完善架構這個主題都是圍繞著雲端服務以及 AWS 服務背後的核心價值。除了官網的敘述，我有在圖中補上常常出現的關鍵字，對這些關鍵字背後代表的架構有印象，考到相關內容時就不會選錯～</p>
+<p>比較需要特別注意的是只要題目提到關於可以以程式碼維護、可以小範圍修改就是屬於 <strong>Operational Excellence 卓越營運</strong> 這個核心價值，這個價值我認為可以理解成能夠「幫助營運與維護」的特性，不論是預測失敗，頻繁、小的、可逆的修改等等都是幫助營運與維護的特點。</p>
+<p>另外 <strong>Reliability 可靠性</strong> 這個也是題目非常喜歡出的，許多 AWS 的服務都有「自動從故障中恢復」、「自動擴展」、「提高負載」的特性，例如 Load Balancing、Auto Scaling 都是符合 Reliability 的設計。</p>
+<p><img src="/images/AWS-Well-Archi.png" alt="AWS-infra"></p>
+<br/>
+
+<h2 id="共同責任模型-Responsibility-Model"><a href="#共同責任模型-Responsibility-Model" class="headerlink" title="共同責任模型 Responsibility Model"></a>共同責任模型 Responsibility Model</h2><p>共同責任模型也是必考（我覺得 AWS 真的很喜歡責任隸屬的考題，可能是很害怕使用者不清楚，發生事故跑來怪 AWS 吧 😅）先奉上官方給的責任模型圖，這張圖上整理的是大方向的原則，但有些產品也會被拿出來獨立出題，例如 EC2 的資料加密是屬於誰的責任？答案是「顧客的」，這樣的題型非常多。</p>
+<p><img src="/images/AWS-ShareModel.png" alt="AWS-computing"></p>
+<p>我也在圖上補充了一些很重要的關鍵字，Security “IN” Cloud，雲端內的運作安全性是屬於顧客的責任，Security “OF” Cloud，雲端服務的安全性是屬於 AWS 的責任。</p>
+<p>除此之外還有關鍵字如 Config、Firewall、IAM、encryption（加密）也八九不離十的是顧客的責任。只要出現 Infrastructure、 hardware、facility 就百分之百是 AWS 的責任！只要掌握這些關鍵字，這類型的題目絕對難不倒你。</p>
+<br/>
+
+<h2 id="付費方案"><a href="#付費方案" class="headerlink" title="付費方案"></a>付費方案</h2><p>付費方案的部分，首先要掌握一個觀念，最貴的服務是「運算」，因為運算的成本最高，其次是儲存，最後才是傳輸。而且傳輸指的是對外傳輸，也就是傳輸到服務端（網站、APP..etc），而不是 AWS 自己的服務之間的傳輸。</p>
+<p><img src="/images/AWS-payment.png" alt="AWS-data"></p>
+<p>圖中下方的是「付費方案」，付費方案又可以分為四種，其中最貴的是 <strong>On-demand</strong>，但他也是最有彈性的，若今天顧客希望可以租「小於一年」或是「隨租隨用」，那一定得購買此方案。反之若能確定使用長短，那就可以選擇 <strong>Reservation</strong>，類似承諾的概念，承諾要用的時間越長費用相對越便宜！這兩個概念就像平常訂閱服務，也有月租、年租的差異所以很好理解。</p>
+<p><strong>Spot</strong> 是透過拍賣取得的，拍賣就有便宜的機會，但相對的有風險，例如不一定能買到符合時間需求的服務。最後 <strong>Saving Plans</strong> 是 AWS 新推出的方案，是一種以「靈活」的定價模式，提供更低的價格，換取在 1 年或 3 年期的用量承諾。</p>
+<p>Saving Plans 與 Reservation 的差異在於，Saving Plans 是承諾在一定的期間以 USD&#x2F;小時計費，而 Reservation 則是承諾在一定的時間內直接支付一個固定的金額，因此相較之下 Saving Plans 計費方式更為靈活。</p>
+<br/>
+
+<h2 id="預算控制"><a href="#預算控制" class="headerlink" title="預算控制"></a>預算控制</h2><p>AWS 跟預算與費用相關的服務也有很多，我將這些服務分為三種類型這樣更好理解，第一種是透過主控台做預算與花費管理。其次是關於預算的評估，比較常運用的情境是花費投入前，例如可以先透過計算機功能 AWS Pricing Calculator 大致掌握各種服務在需求的情境中可能產生的費用，並以 AWS Budgets 自訂預算上限以及預算提醒，幫助預算上的控管。</p>
+<p>最後兩個有 Cost 的產品，都是屬於使用期間的持續性分析，幫助顧客透過報告持續優化自己的組成，讓費用可以花得更划算，其中比較特別的是顧客可以使用 Tag 標籤功能，做標記，並在 Cost &amp; Usage Report 中選出特定標記分類的成本報告。覺得很有趣！如果是你，你會怎麼使用 Tag 這樣的服務幫助分類呢？</p>
+<p><img src="/images/AWS-budget.png" alt="AWS-network"></p>
+<br/>
+
+<h2 id="AWS-Support"><a href="#AWS-Support" class="headerlink" title="AWS Support"></a>AWS Support</h2><p>最後我們來看看 AWS Support ，顧名思義就是 AWS 如何支援顧客，當然如何支援的關鍵是你是什麼咖 😂😂😂。Support 從小咖的一般開發人員到最大咖的企業，通通有不一樣的問題解決時間，我就有被考倒一題幾分鐘內回覆什麼樣的問題是屬於哪一個 Support（沒錯又是我想不起答案的題目所以印象深刻），所以這也是很有可能考的。</p>
+<p>我並沒有把完整的 Support 細節截下來因為實在是太長了，因此強烈建議服用此篇 👉 <a target="_blank" rel="noopener" href="https://aws.amazon.com/tw/premiumsupport/plans/">AWS Support</a></p>
+<p>下圖中我也補充了一些 Support 裡有提到的服務，AWS Concierge Support 就是我有被考到的考題，只有 Enterprise 以上的有此服務，Concierge Support 包含一個完整的帳戶顧問，協助顧客做好帳戶管理、多帳戶的混合帳單等等。</p>
+<p><img src="/images/AWS-Support.png" alt="AWS-network"></p>
+<h3 id="考照心得：一定要讀書哇！"><a href="#考照心得：一定要讀書哇！" class="headerlink" title="考照心得：一定要讀書哇！"></a>考照心得：一定要讀書哇！</h3><p>其實對於此次考試我是很沒有把握的！畢竟做 Udemy 上的題目沒有及格過 🥲，加上有太多產品是我沒有接觸過，甚至連服務是做什麼的都不知道，所以花了一個週末的時間惡補了一番，也參加公司的讀書會一起解題，真正上場的時候也不至於太緊張。基本上我覺得只要有讀書或是超熟雲端產品的都會通過，另外這次考試我是直接選擇了簡中，題目可以中英即時翻譯，我是抱持著多一種語言多一個希望（？），但我大多都還是看英文去選擇答案的。</p>
+<p>希望這兩篇 AWS 文章能幫助到你，若有任何想分享的或是回饋都歡迎留言跟我說唷～預祝大家考照過關 ALL PASS 🎉🎉🎉</p>
+<p>最後很推薦大家去買此 Udemy 考試，幫助自己釐清盲點 👉 <a target="_blank" rel="noopener" href="https://www.udemy.com/course/aws-certified-cloud-practitioner-practice-test/">AWS Certified Cloud Practitioner: 6 Full Practice Exams 2022</a></p>
+<p>我就是做這個題目從來沒有到 70 分，這個題目比考試難很多，但是在做題的過程中幫助我複習了不少服務與產品，做題目最重要的是把不會的變成會的。</p>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+                <div class="icon arrow-left"></div>
+                <div class="post-link">
+                    <a href="/2022/08/22/06-AWS-CCP-1/">Prev</a>
+                </div>
+            
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2022/08/13/04-typeScript-react/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>

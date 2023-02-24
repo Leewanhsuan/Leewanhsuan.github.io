@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【圖解】Canvas.js 常用的語法與互動設計 - 2022 鐵人賽的文章集 | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/Canvas/">
+                            Canvas
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/%E5%8B%95%E7%95%AB%E7%B9%AA%E8%A3%BD/">
+                            動畫繪製
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/HTML/">
+                            HTML
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【圖解】Canvas.js 常用的語法與互動設計 - 2022 鐵人賽的文章集
+            
+            
+        </div>
+        <span class="post-date">
+            12月 27, 2022
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <p>Canvas 剛好是我參加 2022 年鐵人賽的主題，所以這篇其實就是整理相關的文章，不會在這裡多加贅述，覺得自己參加鐵人賽最認真準備的就是前面幾篇，後面都被時間追著跑！如果有機會再次參加，我一定要先準備好 30 篇！！</p>
+<h2 id="何謂-Canvas？"><a href="#何謂-Canvas？" class="headerlink" title="何謂 Canvas？"></a>何謂 Canvas？</h2><p>Canvas 是 HTML tag 的一種，就像是在網頁裡開一塊空白的畫布，利用 JavaScript 在畫布上繪圖。透過 Canvas 還可以做出一些簡單的動畫，再加上事件監聽完成有趣的前端互動、小遊戲。</p>
+<h2 id="Canvas-重點文章節錄"><a href="#Canvas-重點文章節錄" class="headerlink" title="Canvas 重點文章節錄"></a>Canvas 重點文章節錄</h2><h3 id="1-基礎繪圖篇"><a href="#1-基礎繪圖篇" class="headerlink" title="1. 基礎繪圖篇"></a>1. 基礎繪圖篇</h3><p>想了解如何透過 Canvas 繪圖的話可以直接看這幾篇，包含幾何繪製、圖形合成、圖形變形等基礎概念：</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10292191">圖形入門：心裡有坐標，幾何自然來</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10292551">藝起寫 Code，復刻蒙德里安抽象畫</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10294336">風格文字：致敬時代的眼淚「文字藝術師」</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10294994">圖形應用：輕鬆使出合成技</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10295227">圖形應用：旋轉！變形！我閉著眼～</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10295929">加入真實圖片，讓你的 Canvas 更有料</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10296643">剪裁遮色片，隨心所欲留下「重點部位」</a></p>
+</li>
+</ul>
+<h3 id="2-動畫篇"><a href="#2-動畫篇" class="headerlink" title="2. 動畫篇"></a>2. 動畫篇</h3><p>想要讓自己的 Canvas 動起來可以參考這幾篇：</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10298287">動畫入門：嗨動畫，我們先認識一下吧！</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10298488">動畫解析：用 Canvas 讓飛天小女警起飛</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10299771">動畫練習：實作 Apple Watch Series 8 時鐘動畫</a></p>
+</li>
+</ul>
+<h3 id="3-事件監聽應用"><a href="#3-事件監聽應用" class="headerlink" title="3. 事件監聽應用"></a>3. 事件監聽應用</h3><p>透過事件監聽來完成一些特殊效果：</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10301184">事件監聽實作：一個畫版與一個被程式耽誤的畫家？</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10301867">事件監聽複習：霹靂卡霹靂拉拉，魔幻舞台 ๛ก(ｰ̀ωｰ́ก)</a></p>
+</li>
+</ul>
+<h3 id="4-Canvas-Libraries"><a href="#4-Canvas-Libraries" class="headerlink" title="4. Canvas Libraries"></a>4. Canvas Libraries</h3><p>以 Canvas 為基礎的 Libraries 真的超級多～只能說站在巨人的肩膀上很棒！輕鬆多了！！</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10302334">站在巨人的肩膀上，Canvas-based Libraries 整理（上）</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10302960">站在巨人的肩膀上，Canvas-based Libraries 整理（下）</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10303519">實作 Particle.js 動畫，讓你的網頁「哇～好像很厲害」</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10303654">用 Fabric.js 做一個獨一無二的圖表工具</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10304678">時代在走，基本圖表要會！來個 Chart.js</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10306630">以 Matter.js 實作地心引力效果，讓你的動畫完美落地</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10307591">第 26 幅 － p5.js React 起手式，跟著滑鼠搖咧搖咧的海波浪動畫</a></p>
+</li>
+</ul>
+<h3 id="5-用-Canvas-復刻一些小專案"><a href="#5-用-Canvas-復刻一些小專案" class="headerlink" title="5. 用 Canvas 復刻一些小專案"></a>5. 用 Canvas 復刻一些小專案</h3><p>最後以 Canvas 為基礎做了一些小小的互動當作練習：</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10305256">用 Canvas 做告白專用刮刮樂，「這款」中獎機率最高！</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10305709">用 Canvas 復刻 Pokemon ，做個 RPG 小遊戲吧！（上）</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10306228">用 Canvas 復刻 Pokemon ，做個 RPG 小遊戲吧！（下）</a></p>
+</li>
+</ul>
+<p>歡迎對 Canvas 感興趣的各方大神們給予回饋或是分享你的專案唷！</p>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+                <div class="icon arrow-left"></div>
+                <div class="post-link">
+                    <a href="/2023/02/12/10-Algorithm-1/">Prev</a>
+                </div>
+            
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2022/12/25/08-BigO/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>

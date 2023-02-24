@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【圖解】Git 入門知識與實用技巧 | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/Git/">
+                            Git
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/">
+                            版本控制
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Sourcetree/">
+                            Sourcetree
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【圖解】Git 入門知識與實用技巧
+            
+            
+        </div>
+        <span class="post-date">
+            7月 12, 2022
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <p>版本控制大概是所有轉職的人剛成為工程師時最抖的事吧！（至少我是，下個 cmd 指令都會怕一個不小心把整個檔案都刪了哈哈哈）這篇就來簡單分享 Git flow 背後的概念以及一些開發時常用到的超好用指令吧！</p>
+<p>對於剛接觸 git 想深入掌握的人，很推薦 <a target="_blank" rel="noopener" href="https://gitbook.tw/">高見龍的為你自己學 Git</a> 這本書，裡面講的非常詳盡，而且也涵蓋了許多真實開發上可能會遇到的問題。</p>
+<h2 id="Git-是什麼？-一群人一起寫故事"><a href="#Git-是什麼？-一群人一起寫故事" class="headerlink" title="Git 是什麼？ 一群人一起寫故事"></a>Git 是什麼？ 一群人一起寫故事</h2><p>Git 是一個分散式版本控制軟體，其實它只是眾多版本控制的工具之一，但也是最廣泛在開發中使用的工具。Git 可以讓許多人一起開發同一份專案程式碼卻不會有互相影響或是有重疊覆蓋的問題。</p>
+<p>我覺得很像是「共編一本長篇故事」，不是即時線上的 google doc 那種隨時看得到大家編輯的內容，而是大家都下載同一份<strong>故事大綱（origin 初始專案）</strong>，分工去完成各自負責的段落。完成自己的段落再把故事<strong>上傳 (push 自己的分支)<strong>到最初的那份大綱裡，當然</strong>上傳時要先通過審核（提出 Merge Request）</strong>才能加入故事中，不然可能會有不合邏輯的劇情沒被發現。</p>
+<p>在你編輯的同時可以自己掌握進度，並且依據段落 <strong>存下紀錄（commit 紀錄時間與修改內容）</strong>，隨時可以切換回去看看自己那個紀錄做了哪些修改。若你更改的內容與其他人上傳的內容有重疊時，也會依照優先順序，提醒後面才上傳的人說「你改的段落跟別人<strong>衝突（conflict）</strong>！」，那就要思考到底要以誰的故事為主呢？</p>
+<p>我們也可以有很多階段的故事同時並行，例如草稿、校閱、正式印刷版 <strong>(就像開發時不同環境的分支 Branch)</strong> ，有了這些分支我們可以先完成部分草稿內容，上傳到校閱版本給校正人員確認，並在草稿階段修改再更新到校閱版，越往上層推進錯誤率越低，也能控制好不同的版本，想要看時也可以隨時 <strong>切過來看（切換分支、pull 下來）</strong>。</p>
+<p>簡單來說就是一群人共編但又不影響彼此，而且可以很好的控制不同版本、很好的保存每段修改紀錄，這就是 Git 幫得大忙！</p>
+<h2 id="圖解-Git-與-cmd-指令"><a href="#圖解-Git-與-cmd-指令" class="headerlink" title="圖解 Git 與 cmd 指令"></a>圖解 Git 與 cmd 指令</h2><p><img src="/images/Gitflow001.png" alt="git"></p>
+<p>此圖是我整理出來常見的 Git 與 Git 指令背後所代表的意義，從左到右就是我們平常在自己的 Local 開一個 branch，然後透過編輯器（開發環境）寫完之後，透過 hash 的方式存成一個個獨一無二的 Commit，然後再把這個 branch 推上 origin 遠端資料庫的分支做備份，其他一起寫程式的同事也是如此。</p>
+<p>而從右到左則是我們把遠端的程式碼透過 clone 把整個專案下載起來，或是純粹要抓取新的變更的話就用 pull 的方式將程式碼從遠端拉回自己的開發環境，繼續在最新的版本上開發。圖中的指令分別能夠幫我們達成這些目的，可以直接在 terminal 用 cmd 完成。</p>
+<p>如果很需要圖像化（GUI）的工具輔助的話，目前我用的是一款叫做 Sourcetree 的 GUI 工具，他會把每一個分支和每一個 commit 都圖像化，幫助我們透過軟體切換分支、新增 Commit、掌握進度。當然 vscode 這類型編輯器其實也都有一些 GUI 的套件，例如 Git Graph，讓你不用下載 GUI git 管理軟體也能看得清楚。</p>
+<h2 id="超實用的小技巧：git-指令"><a href="#超實用的小技巧：git-指令" class="headerlink" title="超實用的小技巧：git 指令"></a>超實用的小技巧：git 指令</h2><p><strong>1. git rebase</strong> </p>
+<p>我們平常的習慣會是從最新的版本開一個新的分支去完成開發項目，但是隨著許多 co-work 的人和新的程式碼進去版本裡，你手上的版本可能就不再是最新的，甚至會差很多，這種情況下可以在自己的分支下 git rebase 版本 （e.g git rebase dev），這樣你的程式碼就會重新在最新版本上產生新的 commit，好處是這樣通常在要 Merged 的時候比較不容易有衝突，畢竟是最新的版本了。</p>
+<p><strong>2. git cherrypick</strong> </p>
+<p>我都稱他為撿櫻桃，每一個 commit 都像是一顆顆櫻桃，cherrypick 可以讓你在當前的 Branch 去撿任何一個 Branch 的 commit，在要特別挑出一些功能和到不同版本時非常方便。</p>
+<p><strong>3. git reflog + git reset #hash number</strong> </p>
+<p><img src="/images/gitFlog.png" alt="git"></p>
+<p>還原 commit 最好用的大絕就是 git reflog 搭配 git reset，git reflog 可以列出從近而遠的 commit 以及對應的 hash 值，選到自己想還原到哪一個 commit 之前就把該次 commit 的 hash 複製起來，接著按鍵盤 q 離開 reflog，然後就可以下 git reset 指令，還原 commit 囉！而且不用擔心的是，還原之後的變更也都會保留在暫存區，不會直接刪除。</p>
+<p><strong>4. stash</strong> </p>
+<p>是我很常用的招數，手邊如果做到一半但是還不足以變成一個 commit 時我就會先加到 stash 暫存區，忙完別的 feature-branch 之後再把 stash 加回來繼續做，只是要注意的是 Untracked 的檔案是沒有辦法預設存到 stash，例如新增的 assets，source tree 前方有個？的就是 Untracked 的，需要額外加上 -u。 </p>
+<p>最後推薦一個 vscode 套件「git blame」，他能夠幫助你查看每一行程式碼最後編輯的作者、時間以及 commit 的名稱，就像下圖的範例。但記得目的不是要你去責怪寫程式的人啦哈哈哈，主要是在看不懂要問的時候很方便，可以直接找到對的人詢問（前提是他還沒離職 XDD）</p>
+<p><img src="/images/GitFlow003.png" alt="git"></p>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+                <div class="icon arrow-left"></div>
+                <div class="post-link">
+                    <a href="/2022/08/13/04-typeScript-react/">Prev</a>
+                </div>
+            
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2022/07/12/03-typeScript-utility/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>

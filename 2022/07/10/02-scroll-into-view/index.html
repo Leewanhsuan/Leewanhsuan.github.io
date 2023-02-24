@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【踩坑】scroll-into-view 讓畫面自動滾起來 | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/React/">
+                            React
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Scroll/">
+                            Scroll
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Scroll-in-to-view/">
+                            Scroll-in-to-view
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【踩坑】scroll-into-view 讓畫面自動滾起來
+            
+            
+        </div>
+        <span class="post-date">
+            7月 10, 2022
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <h2 id="何謂-Scroll？-Scroll-使用情境？"><a href="#何謂-Scroll？-Scroll-使用情境？" class="headerlink" title="何謂 Scroll？ Scroll 使用情境？"></a>何謂 Scroll？ Scroll 使用情境？</h2><p>Scroll 就是滾動，例如大家常常聽到的 overflow scroll、無限滾動等都是 Scroll 的常見應用，我們常見的文章錨點功能，點擊標題後滾動到該標題文章區域，也是類似的呈現。</p>
+<p>今天要來分享的是我實作滾動時的步驟以及遇到的坑！當初接受到滾動的需求是製作一個排行榜功能，「希望使用者抵達網頁後，網頁自動滾動並聚焦到自己的排名。」 是在前端時常會見到的需求。</p>
+<p> <img src="/images/blog003.jpeg" alt="Scroll情境"><br> 首次 Landing 滾動到指定元素位置，讓指定元素置頂呈現，點擊 Tab 切換主題後，畫面依照不同位置做出一樣的效果。</p>
+<h3 id="如何實踐-Scroll？"><a href="#如何實踐-Scroll？" class="headerlink" title="如何實踐 Scroll？"></a>如何實踐 Scroll？</h3><h2 id="1-window-toScroll"><a href="#1-window-toScroll" class="headerlink" title="1. window.toScroll"></a>1. window.toScroll</h2><p>最簡單的方法就是使用 window.toScroll 這個 Web API，可以設定畫面位置來達成滾動到指定目標。需要計算距離網頁頂部或是底部的距離，是 window.toScroll 的限制，也就是說如果你今天是想抵達特定元素，你就必須先計算該元素距離網頁頂部的距離，再透過 window.scrollTo(x-coord,y-coord ) 這樣的方式達成。</p>
+<p>以下為 window.scrollTo 的實踐方式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">window.scrollTo( 0, 1000 );</span><br><span class="line"></span><br><span class="line">// 可以設置 Smooth 讓滾動有平滑的效果</span><br><span class="line">window.scrollTo(&#123;</span><br><span class="line">    top: 1000,</span><br><span class="line">    behavior: <span class="string">&quot;smooth&quot;</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>但排行榜的元素有這麼多，每次要滾動到的位置都不一樣，要計算太麻煩了！於是我又繼續找能夠滾動到「指定元素」的方式。</p>
+<h2 id="2-Scroll-Into-View"><a href="#2-Scroll-Into-View" class="headerlink" title="2. Scroll-Into-View"></a>2. Scroll-Into-View</h2><p>這是我最終使用的 Web API，覺得這個套件使用方式很簡單，也能達成我的需求，以下跟大家分享使用方式：</p>
+<h3 id="Step-1-起手式"><a href="#Step-1-起手式" class="headerlink" title="Step 1. 起手式"></a>Step 1. 起手式</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//TypeScript 開發</span><br><span class="line">npm install --save @types/scroll-into-view</span><br><span class="line"></span><br><span class="line">//JavaScript 開發</span><br><span class="line">npm install scroll-into-view</span><br><span class="line"></span><br><span class="line">// 在使用的頁面 import </span><br><span class="line">import scrollIntoView from <span class="string">&#x27;scroll-into-view&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step-2-改變目標元素的-ClassName"><a href="#Step-2-改變目標元素的-ClassName" class="headerlink" title="Step 2. 改變目標元素的 ClassName"></a>Step 2. 改變目標元素的 ClassName</h3><p>我的專案剛好是使用 Antd design，Antd table 就有 RowClassName 的 API 可以使用，但若你是自己手刻元件的話，也可以在JavaScript 中使用 getElementById 更改 CSS 屬性，這邊就不贅述，感興趣的人可以再去 Google 關鍵字唷！一但 ClassName 設定好了之後我們就可以給他下 Scroll 的 Function 啦！</p>
+<p>以下是的程式碼，當該欄位的 id 等於我網頁的 UserId，就讓 ClassName 改為 ‘hightLightStyle’，若不符合則為空值。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rowClassName=&#123;(record: any, index: number)=&gt;</span><br><span class="line">record?.userId === <span class="built_in">id</span> </span><br><span class="line">? <span class="string">&#x27;hightLightStyle&#x27;</span></span><br><span class="line">: <span class="string">&#x27;&#x27;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step-3-Handle-Scroll-Function"><a href="#Step-3-Handle-Scroll-Function" class="headerlink" title="Step 3. Handle Scroll Function"></a>Step 3. Handle Scroll Function</h3><p>設定好 CSS 樣式名稱後，就可以在監聽之後給他一個 Scroll Function 啦！因為我的第一個滾動效果是在 Landing 後需要出現，所以我就設計在 UseEffect 初始渲染當中。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const handleScroll = () =&gt; &#123;</span><br><span class="line">    const element = document.querySelector(<span class="string">&#x27;.hightLightStyle&#x27;</span>) as HTMLElement;</span><br><span class="line">    scrollIntoView(element, &#123;</span><br><span class="line">        align: &#123;</span><br><span class="line">            top: 0,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>這裡踩了第一個坑，原本是將 handleScroll 放在第一次呼叫 API 後，但後來發現於首次載入資料時若來不及改變 ClassName 就呼叫 Scroll，會沒有滾動效果。如果你也遇到這個問題，可以放入一個 setMount(true) 在 UseEffect 裡，在監測 mount 變動後再呼叫 handleScroll()，就可以排除此問題。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">const [mount, setMount] = useState(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">// 初始呼叫 API 取得排行榜資料</span><br><span class="line">useEffect(() =&gt; &#123;</span><br><span class="line">    getDataAPI()</span><br><span class="line">        .<span class="keyword">then</span>((response) =&gt; &#123;</span><br><span class="line">            ---略---</span><br><span class="line">            <span class="keyword">if</span> (Data) &#123;</span><br><span class="line">                    setMount(<span class="literal">true</span>);</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        .catch((error) =&gt; &#123;</span><br><span class="line">            ---略---</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;, []);</span><br><span class="line"></span><br><span class="line">//畫面渲染完成再 scroll</span><br><span class="line">useEffect(() =&gt; &#123;</span><br><span class="line">    handleScroll();</span><br><span class="line">&#125;, [mount]);</span><br><span class="line"></span><br><span class="line">//切換排行榜也要重新 scroll</span><br><span class="line">useEffect(() =&gt; &#123;</span><br><span class="line">    handleScroll();</span><br><span class="line">&#125;, [tabKey]);</span><br></pre></td></tr></table></figure>
+<h3 id="Step-4-切換多個分頁都要有-Scroll-效果"><a href="#Step-4-切換多個分頁都要有-Scroll-效果" class="headerlink" title="Step 4. 切換多個分頁都要有 Scroll 效果"></a>Step 4. 切換多個分頁都要有 Scroll 效果</h3><p>在切換不同主題的排行榜時，我發現 Scroll 效果又消失了！迎來第二個坑，由於三個 tab 裡的資料其實是「同步取得」的，若使用者剛好在三個排行榜都榜上有名，那就代表 UserId 並不是唯一值，而會有三個！但 Scroll 的 ClassName 需具備唯一性，這樣 Scroll 才會明確地知道他的滾動目的地，太多個他會不知道該往哪滾。</p>
+<p>所以當你有多個 Tab（頁籤）切換，但是又不是設計成分頁的話，每一個 Tab 的 Key 值或是 Id 值也需要拿出來比對，新增這個比對後就解決了一分頁 Scroll 就失效的問題囉！</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rowClassName=&#123;(record: any, index: number)=&gt;</span><br><span class="line">record?.userId === <span class="built_in">id</span>  &amp;&amp; record?.topic === tabKey</span><br><span class="line">? <span class="string">&#x27;hightLightStyle&#x27;</span></span><br><span class="line">: <span class="string">&#x27;&#x27;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<br/>
+以上就是簡單的 Scroll 特效的使用方式，以及踩過的坑！如果你也有實作類似效果的經驗或是方法也歡迎跟我分享唷！
+
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+                <div class="icon arrow-left"></div>
+                <div class="post-link">
+                    <a href="/2022/07/12/03-typeScript-utility/">Prev</a>
+                </div>
+            
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2022/04/25/01-props/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>

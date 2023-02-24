@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【筆記】AWS CCP (1) - 基礎設施與常見服務 | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/AWS/">
+                            AWS
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Certified-Cloud-Practitioner/">
+                            Certified Cloud Practitioner
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/%E9%9B%B2%E7%AB%AF%E7%9F%A5%E8%AD%98/">
+                            雲端知識
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【筆記】AWS CCP (1) - 基礎設施與常見服務
+            
+            
+        </div>
+        <span class="post-date">
+            8月 22, 2022
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <p>公司正在開發的產品有使用 AWS 服務，但身為前端而且沒有相關經驗的我，對於雲的世界非常陌生，大概只有用過 S3。最近在公司的鼓勵下報考了 AWS Certified Cloud Practitioner 的證照考試，才開始了解何謂雲端、雲端的服務和架構，最後也幸運的考到證照了！（雖然不是很高分 😂）</p>
+<p>備考時剛好做了些筆記幫助記憶與比較易混肴服務，把這些筆記寫成此篇文章，若你也正在準備考試，不妨參考看看，真的都是很容易出現在考題裡的服務唷！</p>
+<br/>
+
+<h2 id="基礎建設-Infrastructure－所有服務的基礎"><a href="#基礎建設-Infrastructure－所有服務的基礎" class="headerlink" title="基礎建設 Infrastructure－所有服務的基礎"></a>基礎建設 Infrastructure－所有服務的基礎</h2><p>基礎建設篇章都是圍繞著 AWS 的一些實體建設與對應的功能。這些基礎建設就是為了提供 AWS 所有服務而存在的。像是必考的 <strong>Region 區域</strong>，就是國家級的資料中心，也可以想象中 AWS 在全球各地擁有的資料中心集合區域。而這些資料中心集合區中還會有多個 <strong>Available Zone單一可用區</strong>，每一個單一可用區都有獨立的電力、運作基礎，考題常出現的 <strong>分散風險，提升容錯力</strong> 就是 Multi-AZ 服務橫跨多個可用區的價值。</p>
+<p><strong>Local Zones</strong> 也是基礎建設的一環，這些可用區多會設立在大都市周邊，也就是產業服務的周邊，為的就是讓服務更接近使用者所在區域。</p>
+<p><img src="/images/AWS-infra.png" alt="AWS-infra"></p>
+<p>除了上述的 Regions、AZ，<strong>Edge Locations 邊緣節點</strong>也是會常常見到的建設。Edge Locations 存在的目的就是 <strong>降低傳遞延遲</strong>，Edge Locations 遍佈在全球各地，會將服務相對應的資料做快取儲存，讓資料取得更快速。<strong>CloudFront</strong> 這個服務就是建立在此基礎建設上，而常見的影音串流服務都是有低延遲需求的客戶。</p>
+<br/>
+
+<h2 id="運算篇－彈性可調整的運算容量"><a href="#運算篇－彈性可調整的運算容量" class="headerlink" title="運算篇－彈性可調整的運算容量"></a>運算篇－彈性可調整的運算容量</h2><ol>
+<li><p>EC2：AWS 運算的服務最常出現的就是大名鼎鼎的 <strong>EC2 Elastic Compute Cloud</strong>，又稱為 VM（虛擬機），其實他的功能就像我們的電腦（主機）一樣，背後由許多的執行個體所組成，最重用的核心價值是「安全且可調整大小的運算容量、可支援幾乎所有工作負載」。當我們選擇 EC2 這個服務時，可以選擇處理器、儲存、網路、作業系統付費方案等等。</p>
+</li>
+<li><p>Lambda：是一個由 <strong>事件驅動</strong>、 <strong>無伺服器</strong> 的平台（函式庫），它提供運算服務、自動管理運算資源。開發者上傳撰寫好的函式後，即可以完成對應的環境與系統維運，Lambda 也支援所有常用的現代開發語言。</p>
+</li>
+</ol>
+<p><img src="/images/AWS-computing.png" alt="AWS-computing"></p>
+<br/>
+
+<h2 id="儲存篇－S3、EBS、EFS"><a href="#儲存篇－S3、EBS、EFS" class="headerlink" title="儲存篇－S3、EBS、EFS"></a>儲存篇－S3、EBS、EFS</h2><p>儲存篇最愛的考的就是不同情境下要使用哪一種存取服務。AWS 有許多雲端儲存空間，最常見的 <strong>S3</strong> 就是 Amazon 很早期就出現的存取服務</p>
+<p><img src="/images/AWS-storages.png" alt="AWS-storages"></p>
+<ol>
+<li><p>S3: 用來儲存媒體類型的檔案、靜態網頁等，是以 <strong>物件形式</strong> 存取資料的也就是「非結構式的資料」，費用非常低，而且用得越多單價越便宜，這樣的儲存空間在內部服務使用之間的傳輸時是不收費的，對外傳輸，例如傳送到終端消費者看到的介面，這個情況就是要收費的。</p>
+</li>
+<li><p>EBS &amp; EFS：一個是 <strong>Block</strong> 磁碟機儲存空間，一個則是 <strong>File</strong> 檔案式儲存空間，這兩兄弟也很常考！EBS 常用在儲存大量的數據和系統文件，且只能在單一 AZ 中使用，而 EFS 則是可以存取會 Scalable 的資料，可以在多個 AZ 中使用。</p>
+</li>
+</ol>
+<p>想比較這幾種服務的差異可以閱讀此篇 👉 <a target="_blank" rel="noopener" href="https://jayendrapatil.com/aws-s3-vs-ebs-vs-efs/">AWS S3 vs EBS vs EFS</a></p>
+<br/>
+
+<h2 id="資料庫篇"><a href="#資料庫篇" class="headerlink" title="資料庫篇"></a>資料庫篇</h2><p>不同於上一段講到的儲存空間，資料庫的資料都是 <strong>「結構化的資料」</strong>，也就是後端開發時使用的資料庫服務，相信若你本來就是工程師對資料庫一定不陌生，資料庫主要又可以分為 SQL 關聯性資料庫與 NoSQL 非關聯性資料庫。AWS 的服務也是兩者都有提供，除了是否有關連性外，存取資料的特性也是常考觀念。例如 RedShift 是倉儲的概念，適合存取大規模的資料集。</p>
+<p><img src="/images/AWS-data.png" alt="AWS-data"></p>
+<p>想進一步比較這幾種服務的差異可以閱讀此篇 👉 <a target="_blank" rel="noopener" href="https://aws.amazon.com/tw/products/databases/">AWS Database</a></p>
+<br/>
+
+<h2 id="網路與內容交付篇"><a href="#網路與內容交付篇" class="headerlink" title="網路與內容交付篇"></a>網路與內容交付篇</h2><p>這一個篇章算是我花最多時間努力了解的，但若本身是資訊背景的可能很熟悉！</p>
+<h3 id="常見服務"><a href="#常見服務" class="headerlink" title="常見服務"></a>常見服務</h3><ol>
+<li><p>Route 53: 就是 DNS 服務！也就是 <strong>網域名稱系統</strong>，DNS 會將可讀取的網域名稱 (例如，<a target="_blank" rel="noopener" href="http://www.amazon.com/">www.amazon.com</a>) 轉換為機器可讀取的IP 地址(例如，192.0.2.44)，另外，Route 53也有提供購買網域的服務。</p>
+</li>
+<li><p>Load Balancing: 主要用途就是「分配、分散流量」，在高併發的產品中時長使用此服務。比較需要注意的是 Network Load Balancing 與 Application Load Balancing 的服務不同。</p>
+</li>
+<li><p>CloudFront: 我們在基礎建設篇認識過他，CloudFront 的功能就是以低延遲和高傳輸速度安全地交付內容，客戶若有全球性的服務希望能提升內容傳輸的效率同時增加傳輸的安全性，看到這樣的敘述就一定是 CloudFront 啦～</p>
+</li>
+</ol>
+<h3 id="VPN-相關服務與概念"><a href="#VPN-相關服務與概念" class="headerlink" title="VPN 相關服務與概念"></a>VPN 相關服務與概念</h3><ol>
+<li><p>VPN：<strong>虛擬網路隔離環境</strong>，讓開發者在內部部署網路、遠端辦公室、用戶端裝置以及 AWS 全域網路之間建立 <strong>安全連線</strong></p>
+</li>
+<li><p>Security Group：安全群組負責控制允許到達和離開其關聯資源的流量，建立 VPC 時，都具有一個預設的安全群組</p>
+</li>
+<li><p>Network ACL：網路存取控制清單 (Allow Control List，我的考題有出但我不會QQ) 可以允許或拒絕子網層級的特定傳入或傳出流量</p>
+</li>
+<li><p>XX Gateway：連結特定網路來源以及 EC2 Instance 的「大門」</p>
+</li>
+</ol>
+<p><img src="/images/AWS-network.png" alt="AWS-network"></p>
+<br/>
+
+<h2 id="開發工具＆控管篇"><a href="#開發工具＆控管篇" class="headerlink" title="開發工具＆控管篇"></a>開發工具＆控管篇</h2><p>開發篇對大部分的工程師來說大概是最熟悉的服務了！AWS 也有提供我們常見的 CI&#x2F;CD 自動化部署（下圖橘色範圍），除此之外 AWS 也提供一些服務幫助我們整體開發流程更順暢。</p>
+<p><img src="/images/AWS-management.png" alt="AWS-management"></p>
+<ol>
+<li><p>CloudWatch: 是監測 <strong>雲端服務本身的使用</strong> ，提供 DevOps 、開發人員、網路可靠性工程師 (SRE)、IT 管理員和產品擁有者建置的監控和可觀察性服務。提供資料和可行的洞見以監控應用程式、回應整個系統的效能變化、最佳化資源使用情況，可以想像成服務的各項指標 DashBoard，幫助使用者快速掌握各種情況。</p>
+</li>
+<li><p>CloudTrail: 是監測 <strong>使用雲端服務的開發者</strong>，監控並記錄 AWS 基礎設施中的帳戶活動，可以控制儲存、分析和修復等行為。</p>
+</li>
+</ol>
+<p>除了這兩個服務以外，Auto Scaling 也是必須要了解的重要服務。</p>
+<ol start="3">
+<li>Auto Scaling: 監控應用程式 <strong>並自動調整容量</strong>，盡可能以最低成本維持穩定、可預測的效能。開發人員也可以針對自身產品的特性去設定加開機器的時間排程、加開機器的數量等等。例如：購物平台在 618 購物節時透過 Auto Scaling 加開機器。</li>
+</ol>
+<br/>
+
+<h3 id="常考觀念"><a href="#常考觀念" class="headerlink" title="常考觀念"></a>常考觀念</h3><p>除了上述特別跟大家分享的服務外，這些服務混合再一起比較時容易出現的觀念有以下幾種，可以試著整理一下。</p>
+<ol>
+<li>服務有無伺服器</li>
+<li>服務是用戶管理還是 AWS 全託管</li>
+<li>服務符合 AWS 的哪種設計理念</li>
+<li>服務的使用情境</li>
+</ol>
+<p>最後，考試時我常常看到一些似曾相似但又忘記服務功能的產品，所以強烈建議大家要把常見的這些產品都至少看過「且有印象、知道服務情境」，因為考題真的很喜歡給使用情境問適用哪一種產品唷！</p>
+<h3 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://aws.amazon.com/tw/pricing/">AWS 所有常見服務簡介</a></li>
+<li><a target="_blank" rel="noopener" href="https://youtu.be/JIbIYCM48to">Top 50 Services Explain in 10 minutes</a></li>
+</ol>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+                <div class="icon arrow-left"></div>
+                <div class="post-link">
+                    <a href="/2022/12/25/08-BigO/">Prev</a>
+                </div>
+            
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2022/08/21/07-AWS-CCP-2/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>
