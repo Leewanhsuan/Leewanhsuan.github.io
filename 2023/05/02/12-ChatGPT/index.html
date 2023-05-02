@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【心得】如何讓 ChatGPT 成為你的開發夥伴？前端工程師必備的技能 | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/Ai/">
+                            Ai
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/ChatGPT/">
+                            ChatGPT
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/%E5%AF%A6%E7%94%A8%E6%83%85%E5%A2%83/">
+                            實用情境
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/%E5%89%8D%E7%AB%AF%E6%8A%80%E5%B7%A7/">
+                            前端技巧
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【心得】如何讓 ChatGPT 成為你的開發夥伴？前端工程師必備的技能
+            
+            
+        </div>
+        <span class="post-date">
+            5月 2, 2023
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <h2 id="對的，這篇文章連名稱都是-ChatGPT-幫我想的"><a href="#對的，這篇文章連名稱都是-ChatGPT-幫我想的" class="headerlink" title="對的，這篇文章連名稱都是 ChatGPT 幫我想的"></a>對的，這篇文章連名稱都是 ChatGPT 幫我想的</h2><p><img src="/images/ChatGPT-0.png" alt="ChatGPT0"></p>
+<p>身為一個前端工程師，ChatGPT 已經成為我工作時最常對話的對象了！ChatGPT 幫我省去許多繁瑣的資料閱讀以及撞牆的階段，也讓我開發時的效率有所提升，當然有時候與他對話也是很頭痛，因為他也會給錯方法、亂組各式各樣的資訊還講得跟真的一樣。</p>
+<p>但總體而言，我很感謝有 ChatGPT 的誕生，除了多了一個好幫手以外，也透過跟他的問答累積 <strong>「問問題的技巧與能力」</strong>，在問答過程中會發現自己提問的方式還有須多地方可以補足。</p>
+<p>接著想以這篇文章跟大家分享，在目前開發過程中我認為 ChatGPT 很好用的地方，以及真實的使用經驗分享。</p>
+<h2 id="一、抽象變具象，為人生指點方向"><a href="#一、抽象變具象，為人生指點方向" class="headerlink" title="一、抽象變具象，為人生指點方向"></a>一、抽象變具象，為人生指點方向</h2><p>顧名思義是問 ChatGPT 一些比較抽象、範圍比較廣的問題，當你毫無頭緒時也許可以先問問 ChatGPT，越不精確的答案得到的回覆越籠統，但是也沒關係就一步步的修正自己的問題，也可以直接問 ChatGPT 需要什麼資訊，再針對他需要的資訊逐點回覆，這樣也能幫助我們更加定義好問題。以下舉三個情境為例：</p>
+<h3 id="1-第三方套件的建議"><a href="#1-第三方套件的建議" class="headerlink" title="1. 第三方套件的建議"></a>1. 第三方套件的建議</h3><p>當我有一個業務需求，想透過前端生成 pdf 檔案並且可以實現下載，我就會把我的需求描述寫下來詢問他，並且說明我的框架與套件，接著我會去看他們的文件確認是否能符合我的需求，若不行則繼續追問，若可以也能請 ChatGPT 針對你更具體的內容提供範例程式碼。</p>
+<p><img src="/images/ChatGPT-1.png" alt="ChatGPT1"></p>
+<p>當我進一步發現，這些套件只能滿足原生的 html 時，就可以進一步再詢問是否能支援我已經寫好的動態 components，而最後我也是採用 html2canvas 搭配 jsPDF 去寫。（只不過後來又遇到了瓶頸，今天就先不討論XD ）</p>
+<p><img src="/images/ChatGPT-2.png" alt="ChatGPT2"></p>
+<h3 id="2-圖表設計建議"><a href="#2-圖表設計建議" class="headerlink" title="2. 圖表設計建議"></a>2. 圖表設計建議</h3><p>前端常常會有一些表格設計、圖表設計的實作，但若實作上遇到一些難題想與 PM 與 UIUX Designer 近一步討論時，也可以把這樣的情境交給 ChatGPT，讓你討論的時候有一些方向以及解法幫助討論順利進行。</p>
+<p>例如我有一個需求是要完成一張熱力圖，但是數據上有些限制讓數據圖呈現起來跟 Spec 當初規劃的有落差，我就把這樣的難題拋給 ChatGPT，最後也從他的建議中找到了執行方向。</p>
+<p>在這次的經驗中經驗中我誤打誤撞的發現新招，話沒說完讓 ChatGPT 近一步追問我更多問題，於是在這之後，我都習慣<strong>問得很簡單並請他問我問題</strong>，問他我還需要補充什麼資訊，就像下圖一樣，他追問我「數據類型、數據範圍、圖表類型、目的」，真的成功幫助我讓我的問題更具體。</p>
+<p>倘若你的問題已經夠具體了，你跟他說：有什麼需要再補充的嗎？這時候 ChatGPT 就不會再多問你問題，會直接開始回答唷！下次問問題時可以兩種情境都試試看。</p>
+<p><img src="/images/ChatGPT-3.png" alt="ChatGPT3"></p>
+<h3 id="3-各種起手式"><a href="#3-各種起手式" class="headerlink" title="3. 各種起手式"></a>3. 各種起手式</h3><p>很實用的「起手式」，例如這次因緣際會的接觸了後端開發，也是各種請教 ChatGPT！可以很簡單的請他解釋你不熟悉的名詞，例如：如何在 API 中撰寫存取資料的程式碼？請問 controller 是什麼意思？什麼樣的程式碼會放在 controller？kao.js 是什麼？這類型問題可以廣泛地問沒有關係，畢竟你不是要解決特定問題。</p>
+<h2 id="二、揮一揮魔法棒！省去許多時間"><a href="#二、揮一揮魔法棒！省去許多時間" class="headerlink" title="二、揮一揮魔法棒！省去許多時間"></a>二、揮一揮魔法棒！省去許多時間</h2><p>接著分享一些比較小層面的應用，雖然小但是很實用！！也能增加程式碼的準確和維護性。</p>
+<h3 id="1-麻煩的資料格式轉換"><a href="#1-麻煩的資料格式轉換" class="headerlink" title="1. 麻煩的資料格式轉換"></a>1. 麻煩的資料格式轉換</h3><p>第一個是我最常依賴的使用情境之一，前端常常要處理 api 拿回來的資料格式轉成畫面需要的格式，或是把用戶端收回來的資料格式轉換成 api 需要的格式，倘若資料格式很複雜或是毫無頭緒該如何下手時，我會把 input 與 output 的資料格式提供給 ChatGPT，讓他先寫一個簡單的範例，再進一步確認細節，確認是否有符合自己的需求，真的是超方便。</p>
+<h3 id="2-各種小錦囊-utils-x2F-helper-函式設計"><a href="#2-各種小錦囊-utils-x2F-helper-函式設計" class="headerlink" title="2. 各種小錦囊 utils &#x2F; helper 函式設計"></a>2. 各種小錦囊 utils &#x2F; helper 函式設計</h3><p>我們在開發時時常有些型別、資料判斷或是格式轉換，這時候 ChatGPT 也能派上用場，只要詳述需求就可以得到函式。</p>
+<p><img src="/images/ChatGPT-4.png" alt="ChatGPT4"></p>
+<h3 id="3-Typescript-型別轉換"><a href="#3-Typescript-型別轉換" class="headerlink" title="3. Typescript 型別轉換"></a>3. Typescript 型別轉換</h3><p>寫 typescript 的前端都知道，有時候資料格式會很多層，需要花許多時間去定義型別，這時候也可以交給 ChatGPT，有一些型別不明或是動態變化的情境也都可以請他給你建議唷！能完全跟 any 説掰掰。 </p>
+<p><img src="/images/ChatGPT-5.png" alt="ChatGPT5"></p>
+<h3 id="4-優化程式碼＆加上註解"><a href="#4-優化程式碼＆加上註解" class="headerlink" title="4. 優化程式碼＆加上註解"></a>4. 優化程式碼＆加上註解</h3><p>你也可以自己寫完之後，可以丟一些範例與寫好的函式，請 ChatGPT 確認看看程式碼是否有漏洞或是沒想清楚的環節，補強自己的程式碼，或是請他幫你加上註解，我也曾在幫同事 code review 時使用過此招，真的好好用 (⁎⁍̴̛ᴗ⁍̴̛⁎)</p>
+<p><img src="/images/ChatGPT-6.png" alt="ChatGPT6"></p>
+<h3 id="5-各種報錯問題排解"><a href="#5-各種報錯問題排解" class="headerlink" title="5. 各種報錯問題排解"></a>5. 各種報錯問題排解</h3><p>最後就是排錯了，有時候我們遇到 console 報錯，把關鍵字拿去 google 卻發現找不太到類似的情境，這種時候給 ChatGPT 也很方便，他除了會解釋報錯原因還會提供一些解法或是可能可以再檢查的地方。</p>
+<p>以上就是今天的實用心得分享，除了我自己的心得，也問了一些 <strong>身邊的前端工程師們，大家最常使用的情境</strong> 包含：名詞解釋、格式轉換、報錯原因詢問、 Bug 詢問、正則表達式、單元測試的程式碼、Typescript 報錯修正，英文變數命名等。<strong>而其中名詞解釋、格式轉換、報錯原因詢問是最多人提到的使用情境</strong> 。</p>
+<h3 id="與其擔心不如學著善用它，釋放自己的時間，把時間投資在能讓自己更加分的地方。"><a href="#與其擔心不如學著善用它，釋放自己的時間，把時間投資在能讓自己更加分的地方。" class="headerlink" title="與其擔心不如學著善用它，釋放自己的時間，把時間投資在能讓自己更加分的地方。"></a>與其擔心不如學著善用它，釋放自己的時間，把時間投資在能讓自己更加分的地方。</h3><p>雖然我也會擔心 ChatGPT 未來會取代前端工程師的工作，但我相信專案架構、業務邏輯與團隊溝通，這些環節還是要靠工程師去完成，未來工程師的價值將是在於這些 ChatGPT 無法取代的事以及如何善用 ChatGPT 讓自己開發效率與品質提升。</p>
+<h3 id="過度依賴-ChatGPT-會不會讓自己實際撰寫程式碼的能力退步？"><a href="#過度依賴-ChatGPT-會不會讓自己實際撰寫程式碼的能力退步？" class="headerlink" title="過度依賴 ChatGPT 會不會讓自己實際撰寫程式碼的能力退步？"></a>過度依賴 ChatGPT 會不會讓自己實際撰寫程式碼的能力退步？</h3><p>面對這個問題我其實還沒有頭緒，只能不斷地提醒自己，要保有自己的判斷能力，卡關沒有頭緒的問題再詢問 ChatGPT，或是讓他扮演我的 Code Reviewer 的角色。</p>
+<p>希望我們都能成為善用 AI 、站在巨人肩膀上的人，讓自己更有精力去累積更多無法被取代的能力，並在使用工具與個人能力累積中取得平衡。最後，若有什麼 ChatGPT 在開發時的應用是我沒提及到的，非常歡迎在底下留言跟大家分享唷！</p>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2023/02/25/11-Leetcode-easy/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>
