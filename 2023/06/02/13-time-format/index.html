@@ -148,7 +148,7 @@
     </div>
 </div>
     <div class="post-content">
-    <p>剛開始處理時間，常常會迷失在到底要傳什麼格式給後端以及到底拿回來的資料又是什麼時間格式？最怕的就是有時差問題沒處理到，讓使用者看到格林威治標準時間了～或是著是 24 小時制變成 12 小時制等等，所以這篇會整理常見的時間格式類型、Js Date() api、以及第三方時間套件，就讓我們一起進入時光屋吧！</p>
+    <p>剛開始處理時間，常常會迷失在到底要傳什麼格式給後端以及到底拿回來的資料又是什麼時間格式？最怕的就是有時差問題沒處理到，讓使用者看到格林威治標準時間了，這篇會整理常見的時間格式類型、Js Date() api、以及第三方時間套件，就讓我們一起進入時光屋吧！</p>
 <p>在我目前的開發團隊是以 iso8601  <code>YYYY-MM-DDTHH:MM:SSZ</code> 作為前後端溝通的時間格式，除了一些 list api 可能會帶有時間區間 sorter query-string ，就可能用 <code>?start_at=YYYY-mm-dd&amp;end_at=YYYY-mm-dd</code> 類似這樣的字串格式，這種情況就要跟後端確認一下接收的格式以及前端要做的處理唷！</p>
 <h2 id="什麼是-ISO-8601？"><a href="#什麼是-ISO-8601？" class="headerlink" title="什麼是 ISO 8601？"></a>什麼是 ISO 8601？</h2><p><strong>國際標準 ISO 8601</strong>，是國際標準化組織的日期和時間的表示方法，全名為《資料元件及交換格式－資訊交換－日期及時間表示法》—— <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%9C%8B%E9%9A%9B%E6%A8%99%E6%BA%96%E5%8C%96%E7%B5%84%E7%B9%94">wiki</a>，<strong>ISO 8601</strong> 包括了詳細的日期和時間，有良好的跨平台兼容性，常用在 JSON 等數據交換格式中。</p>
 <p>生成的時間是按照 UTC（協調世界時） 表示的，<strong>並「不是你的當地的時間」</strong>。無論你在哪個時區，使用這個方法生成的時間都會是相同的 UTC 時間，我們當地的時間會是「台北,<em>UTC</em> + 8:00」。ISO 8601 有很多不同格式，但最常見的是 <code>YYYY-MM-DDTHH:MM:SSZ。</code></p>
