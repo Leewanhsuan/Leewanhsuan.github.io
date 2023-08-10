@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【筆記】防抖（Debounce）與節流（Throttle）實際應用場景 | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/%E9%98%B2%E6%8A%96/">
+                            防抖
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/%E7%AF%80%E6%B5%81/">
+                            節流
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Javascript/">
+                            Javascript
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%A9%A6/">
+                            前端面試
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【筆記】防抖（Debounce）與節流（Throttle）實際應用場景
+            
+            
+        </div>
+        <span class="post-date">
+            8月 9, 2023
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <p>最近在查前端面試常被問的問題時，發現了這兩個很常被問到的函數設計，但在這之前我完全沒聽過這兩個名詞😶‍🌫️，如果被問到可能真的會很抖！！！近一步查了才知道已經有實際寫過類似的行為，但完全沒有跟這個名詞連結起來。這篇就讓我們一起來看看什麼是防抖與節流，以及他們分別會運用在什麼場景裡吧！</p>
+<h2 id="為什麼需要防抖與節流？"><a href="#為什麼需要防抖與節流？" class="headerlink" title="為什麼需要防抖與節流？"></a>為什麼需要防抖與節流？</h2><p>防抖與節流的目的都是為了「提高網站的效能」，透過減少對 API 的請求次數，提高效能並改善用戶體驗。直接舉一個最簡單的例子，想必前端工程師們一定都有設計過輸入框（Input）這樣的欄位，當我們監聽 Input 的 OnChange 變化時會發現，當用戶想輸入 Coding 這個單字，每次輸入欄位都會監聽到最新的變化，在 console 印出來會看到 “C, Co, Cod, Codi, Coding”。</p>
+<p>試想想，如果今天我們是做一個編輯器，那每輸一個字元就打一次 API 去儲存資料，當完成一個 “Coding” 就會連打六次，如果用戶手抖一直打錯…那打 API 的次數又會再增加，這樣是不是會很耗能呢？</p>
+<h2 id="防抖與節流是什麼？"><a href="#防抖與節流是什麼？" class="headerlink" title="防抖與節流是什麼？"></a>防抖與節流是什麼？</h2><h3 id="一張圖比較防抖與節流-👇"><a href="#一張圖比較防抖與節流-👇" class="headerlink" title="一張圖比較防抖與節流 👇"></a>一張圖比較防抖與節流 👇</h3><p><img src="/images/debounce-throttle-1.png" alt="Debounce&amp;Throttle"></p>
+<h3 id="1-防抖（Debounce）"><a href="#1-防抖（Debounce）" class="headerlink" title="1. 防抖（Debounce）"></a>1. 防抖（Debounce）</h3><h4 id="「當觸發停止後，直到過了某段時間函數才會執行。」"><a href="#「當觸發停止後，直到過了某段時間函數才會執行。」" class="headerlink" title="「當觸發停止後，直到過了某段時間函數才會執行。」"></a>「當觸發停止後，直到過了某段時間函數才會執行。」</h4><p>防抖的原理是通過延遲函數調用一定的時間。如果在這段時間內沒有任何事情發生，那麼函數就會執行，但如果在延遲期間有某些事情導致函數再次被調用，那麼延遲將重新開始計算。也就是説一個防抖的函數只會在它「最後一次被觸發後的一段特定延遲後運行一次」。</p>
+<h4 id="1-實際場景：搜尋欄位、手機號碼、信箱驗證"><a href="#1-實際場景：搜尋欄位、手機號碼、信箱驗證" class="headerlink" title="(1). 實際場景：搜尋欄位、手機號碼、信箱驗證"></a>(1). 實際場景：搜尋欄位、手機號碼、信箱驗證</h4><h4 id="2-以搜尋欄位作為範例："><a href="#2-以搜尋欄位作為範例：" class="headerlink" title="(2). 以搜尋欄位作為範例："></a>(2). 以搜尋欄位作為範例：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">// debounce 函式，當在指定的延遲時間內沒有再次呼叫，它將執行 callback <span class="keyword">function</span></span><br><span class="line">const debounce = (callback, delay = 250) =&gt; &#123;</span><br><span class="line">  <span class="built_in">let</span> <span class="built_in">timeout</span>;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">return</span> (...args) =&gt; &#123;</span><br><span class="line">    clearTimeout(<span class="built_in">timeout</span>);  // 清除先前的計時器，以確保 callback 只在延遲時間後調用一次</span><br><span class="line">    <span class="built_in">timeout</span> = setTimeout(() =&gt; &#123;</span><br><span class="line">      callback(...args);</span><br><span class="line">    &#125;, delay);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 用於更新搜尋結果的函式</span><br><span class="line">const updateSearchResults = debounce(query =&gt; &#123;</span><br><span class="line">  fetch(`/api/search?query=<span class="variable">$&#123;query&#125;</span>`)</span><br><span class="line">    .<span class="keyword">then</span>(res =&gt; res.json())</span><br><span class="line">    .<span class="keyword">then</span>(data =&gt; displayResults(data))  // 假設 displayResults 會顯示搜尋結果到 UI</span><br><span class="line">    .catch(error =&gt; console.error(<span class="string">&quot;Error fetching search results:&quot;</span>, error));</span><br><span class="line">&#125;, 500);  // 這裡選擇 500 毫秒作為延遲，代表用戶輸入停止超過 500 毫秒後才發出請求</span><br><span class="line"></span><br><span class="line">// 監聽搜尋框的 input 事件</span><br><span class="line">const searchInput = document.querySelector(<span class="string">&quot;#searchInput&quot;</span>);</span><br><span class="line">searchInput.addEventListener(<span class="string">&quot;input&quot;</span>, e =&gt; &#123;</span><br><span class="line">  updateSearchResults(e.target.value);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在上面的例子中，當用戶在搜尋框 (#searchInput) 中輸入文字時，不會立即觸發 updateSearchResults。只有當用戶停止輸入超過 500 毫秒，才會發送搜尋請求到伺服器。</p>
+<h3 id="2-節流（Throttle）"><a href="#2-節流（Throttle）" class="headerlink" title="2. 節流（Throttle）"></a>2. 節流（Throttle）</h3><h4 id="「在一段時間內，確保函數的執行次數不超過某個次數。」"><a href="#「在一段時間內，確保函數的執行次數不超過某個次數。」" class="headerlink" title="「在一段時間內，確保函數的執行次數不超過某個次數。」"></a>「在一段時間內，確保函數的執行次數不超過某個次數。」</h4><p>不同於防抖，節流是在固定一段時間內執行一次。例如，如果我們的延遲設置為 1 秒，即使你在 1 秒內連續調用它，它也只會執行一次。</p>
+<h4 id="1-實際場景：滾動事件、滑鼠移動、鍵盤點擊等頻繁觸發情境"><a href="#1-實際場景：滾動事件、滑鼠移動、鍵盤點擊等頻繁觸發情境" class="headerlink" title="(1). 實際場景：滾動事件、滑鼠移動、鍵盤點擊等頻繁觸發情境"></a>(1). 實際場景：滾動事件、滑鼠移動、鍵盤點擊等頻繁觸發情境</h4><h4 id="2-以滾動事件作為範例："><a href="#2-以滾動事件作為範例：" class="headerlink" title="(2). 以滾動事件作為範例："></a>(2). 以滾動事件作為範例：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">const throttle = (callback, delay = 1000) =&gt; &#123;</span><br><span class="line">  <span class="built_in">let</span> shouldWait = <span class="literal">false</span>;  // 表示是否在延遲時間內</span><br><span class="line">  <span class="built_in">let</span> waitingArgs;         // 用於存儲在延遲時間內的最後一次調用的參數</span><br><span class="line"></span><br><span class="line">  const timeoutFunc = () =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (waitingArgs == null) &#123;  </span><br><span class="line">      shouldWait = <span class="literal">false</span>;       </span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      callback(...waitingArgs);      </span><br><span class="line">      waitingArgs = null;    </span><br><span class="line">      setTimeout(timeoutFunc, delay);  </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">return</span> (...args) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (shouldWait) &#123;            </span><br><span class="line">      waitingArgs = args;       </span><br><span class="line">      <span class="built_in">return</span>;                 </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    callback(...args);                 </span><br><span class="line">    shouldWait = <span class="literal">true</span>;           </span><br><span class="line">    setTimeout(timeoutFunc, delay); </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const scrollHandler = event =&gt; &#123;</span><br><span class="line">  console.log(<span class="string">&quot;Handling scroll&quot;</span>);</span><br><span class="line">  // 執行滾動事件觸發內容</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const throttledScrollHandler = throttle(scrollHandler, 250);</span><br><span class="line"></span><br><span class="line">window.addEventListener(<span class="string">&quot;scroll&quot;</span>, throttledScrollHandler);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上述這個 throttle 函式不僅可以對第一次事件作出反應，還可以對最後一次事件作出反應。例如當你需要確保某些操作（例如動畫或渲染）在一系列連續事件（例如滾動）結束後才被執行，這一個函式就很實用。</p>
+<p>以上就是關於防抖與節流的目的以及實際的函式設計，希望可以幫助大家理解這兩個情境並試著在前端的網頁邏輯中實踐它！</p>
+<hr>
+<p>💬 參考資料：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://blog.webdevsimplified.com/2022-03/debounce-vs-throttle/">How To Implement Debounce And Throttle In JavaScript</a>：這篇文章也是目前為止我看到解釋最完整也最好理解的，還附有影片教學～非常推薦大家去看看。</li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/s5buGAZVTAqjD9pQC_UgPw">JavaScript中的函数节流与防抖</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/7100920925259825188">JavaScript 防抖（debounce）与节流（throttle）</a></li>
+</ol>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2023/06/02/13-time-format/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>
