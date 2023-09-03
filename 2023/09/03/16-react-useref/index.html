@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【筆記】React：解析 useRef 的使用目與場景 | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/React/">
+                            React
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/React-Hook/">
+                            React Hook
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/useRef/">
+                            useRef
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【筆記】React：解析 useRef 的使用目與場景
+            
+            
+        </div>
+        <span class="post-date">
+            9月 3, 2023
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <p>接下來幾篇文章將會針對 React 常見的 Hooks 的使用目的與場景 ，內容主要都是透過官方文件、一些大師影片以及自身開發經驗彙整出來的，如果有很不錯的學習資源我也會在文末留下來源供大家參考喔！</p>
+<p>首篇就來一個最近開發中很常使用到的 <code>useRef</code></p>
+<p><img src="/images/React-useRef.png" alt="useRef"></p>
+<h2 id="認識一下吧-useRef"><a href="#認識一下吧-useRef" class="headerlink" title="認識一下吧 useRef"></a>認識一下吧 useRef</h2><p>先讓我們來看看 React 官方文件的 useRef 定義：</p>
+<blockquote>
+<p><code>useRef</code> is a React Hook that lets you reference a value that’s not needed for rendering.</p>
+</blockquote>
+<p>簡單來說有與 <code>state</code> 相似的功能都是暫存值，但最大的不同就是 <code>useRef</code> 裡的 ref object 就算變動了也不會造成畫面的 re-render，是完全隔絕於 component life cycle 外的狀態。</p>
+<h2 id="useRef-實用場景"><a href="#useRef-實用場景" class="headerlink" title="useRef 實用場景"></a>useRef 實用場景</h2><h3 id="1-Referencing-a-value-with-a-ref（使用-ref-對照值）"><a href="#1-Referencing-a-value-with-a-ref（使用-ref-對照值）" class="headerlink" title="1. Referencing a value with a ref（使用 ref 對照值）"></a>1. Referencing a value with a ref（使用 ref 對照值）</h3><p>這是 <code>useRef</code> 最基本的用法。可以用它來創建一個「可變」的 ref object，object 的 <code>.current</code> 屬性被初始化為傳遞給 <code>useRef()</code> 的參數，在後續的 re-render 中，<code>useRef</code> 將返回相同的 object。而且這個 object 可以更改其 <code>current</code> 屬性以存儲為新的值，就算值更新了也不會讓整個畫面  re-render。</p>
+<p>接著舉兩個常見的使用案例：</p>
+<h4 id="🔎-ex1-存取最新的值"><a href="#🔎-ex1-存取最新的值" class="headerlink" title="🔎 ex1. 存取最新的值"></a>🔎 ex1. 存取最新的值</h4><p>若我們想要在若干秒數後取得某一個狀態的最新值，<code>useRef</code> 就可以派上用場了！！</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [timeoutCount, setTimeoutCount] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">const</span> countRef = <span class="title function_">useRef</span>(count);</span><br><span class="line">countRef.<span class="property">current</span> = count;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">getCountTimeout</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    setTimeoutCount(countRef.<span class="property">current</span>);</span><br><span class="line">  &#125;, <span class="number">5000</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>這邊為什麼使用 <code>ref.current</code> 存值，而不是用 <code>state</code>？</p>
+<p>因為當 <code>setTimeout</code> 被建立時，它使用的是當時 <code>count</code> 的值，它依賴一個閉包（closure）來異步訪問 <code>count</code>。因此當組件重新渲染時，一個新的閉包會被創建，但這不會改變最初被封閉的值，所以如果用了 <code>state</code>，當 5 秒後你以為 <code>count</code> 已經變更了拿出來用，會發現該 <code>state</code> 還是初始的 0。</p>
+<p>這就是 <code>useRef</code> 的一個實用情景可以避免上述的情形發生，我們透過將狀態值與 ref 的 <code>current</code> 屬性同步，並在 <code>timeout</code> 中讀取 <code>current</code>以取得我們想要的值。</p>
+<h4 id="🔎-ex2-存取「前一個值」"><a href="#🔎-ex2-存取「前一個值」" class="headerlink" title="🔎 ex2. 存取「前一個值」"></a>🔎 ex2. 存取「前一個值」</h4><p>呈上，我們當然也可以拿來存取前一個值。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [name, setName] = <span class="title function_">useState</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> prevName = <span class="title function_">useRef</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">	prevName.<span class="property">current</span> = name;</span><br><span class="line">&#125;,[name]) </span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> (</span><br><span class="line">	<span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>My name is &#123;name&#125;, and it used to be &#123;prevName.current&#125;.<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-Manipulating-the-DOM-with-a-ref（使用-ref-操作-DOM-）"><a href="#2-Manipulating-the-DOM-with-a-ref（使用-ref-操作-DOM-）" class="headerlink" title="2. Manipulating the DOM with a ref（使用 ref 操作 DOM ）"></a>2. Manipulating the DOM with a ref（使用 ref 操作 DOM ）</h3><p>在 React 中我們可以使用 <code>useRef</code> 來直接操作 DOM 元素。通過將 ref 對象的 <code>.current</code> 屬性設置為一個 DOM 節點，可以直接讀取或修改這個節點。</p>
+<h4 id="🔎-ex1-取用某一個-DOM-作進一步操作"><a href="#🔎-ex1-取用某一個-DOM-作進一步操作" class="headerlink" title="🔎 ex1. 取用某一個 DOM 作進一步操作"></a>🔎 ex1. 取用某一個 DOM 作進一步操作</h4><p>最簡單常用的使用情境包含列印、操作特定的 DOM Scroll to view、監聽無限滾動的最後一個元素等等，這邊舉列印為例：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> printRef = useRef&lt;<span class="title class_">HTMLDivElement</span>&gt;(<span class="literal">null</span>);</span><br><span class="line"><span class="keyword">const</span> handlePrint = <span class="title function_">useReactToPrint</span>(&#123;</span><br><span class="line">        <span class="attr">content</span>: <span class="function">() =&gt;</span> printRef.<span class="property">current</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> (</span><br><span class="line">	<span class="language-xml"><span class="tag">&lt;<span class="name">PrintArea</span> <span class="attr">ref</span>=<span class="string">&#123;ref&#125;</span>&gt;</span> </span></span><br><span class="line"><span class="language-xml">			// 列印內容略</span></span><br><span class="line"><span class="language-xml">	<span class="tag">&lt;/<span class="name">PrintArea</span>&gt;</span></span></span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="🔎-ex2-父組件使用-useRef-調用子組件的方法"><a href="#🔎-ex2-父組件使用-useRef-調用子組件的方法" class="headerlink" title="🔎 ex2. 父組件使用 useRef 調用子組件的方法"></a>🔎 ex2. 父組件使用 <code>useRef</code> 調用子組件的方法</h4><p>在 react 的父子層的關係，父層若要呼叫存在子層的函式通常會將函式放置在父層，並且將函式與相關的狀態一起傳入子層中做使用。也是之前分享過的文章【圖解】React 常見的父子傳值方法 Props（<a target="_blank" rel="noopener" href="https://leewanhsuan.github.io/2022/04/25/01-props/%EF%BC%89%E6%89%80%E6%8F%90%E9%81%8E%E7%9A%84%E6%96%B9%E6%B3%95%E3%80%82">https://leewanhsuan.github.io/2022/04/25/01-props/）所提過的方法。</a></p>
+<p>而下方改成以 <code>useRef</code> 的方式實踐，這段範例中使用 <code>React.forwardRef</code> 和 <code>React.useImperativeHandle</code> 來從父組件調用子組件的方法，這樣可以把方法保留在子層中，卻又能在父層中調用。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123; useRef, useEffect &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">ChildComponent</span> = <span class="title class_">React</span>.<span class="title function_">forwardRef</span>(<span class="function">(<span class="params">props, ref</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 這個方法會被父組件調用</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">method</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Child component method called!&#x27;</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 使用 ref 將方法提供給父組件</span></span><br><span class="line">  <span class="title class_">React</span>.<span class="title function_">useImperativeHandle</span>(ref, <span class="function">() =&gt;</span> (&#123;</span><br><span class="line">    someMethod,</span><br><span class="line">  &#125;));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>Child Component<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">ParentComponent</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> childRef = <span class="title function_">useRef</span>(<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 使用 ref 調用子組件的 method 方法</span></span><br><span class="line">    <span class="keyword">if</span> (childRef.<span class="property">current</span>) &#123;</span><br><span class="line">      childRef.<span class="property">current</span>.<span class="title function_">method</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, []);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Parent Component<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">ChildComponent</span> <span class="attr">ref</span>=<span class="string">&#123;childRef&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">ParentComponent</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-Avoiding-recreating-the-ref-contents（避免不必要的重建-ref-內容）"><a href="#3-Avoiding-recreating-the-ref-contents（避免不必要的重建-ref-內容）" class="headerlink" title="3. Avoiding recreating the ref contents（避免不必要的重建 ref 內容）"></a>3. Avoiding recreating the ref contents（避免不必要的重建 ref 內容）</h3><p>使用 <code>useRef</code> 可以幫助你避免在重新渲染 component 時不必要地重建 ref 的內容，因為 ref 會在 re-render 中保持不變，例如一些資源很大的影音 component 就可以使用此方法，避免重複拿取資源、更新畫面。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">Video</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> playerRef = <span class="title function_">useRef</span>(<span class="literal">null</span>);</span><br><span class="line">  <span class="keyword">if</span> (playerRef.<span class="property">current</span> === <span class="literal">null</span>) &#123;</span><br><span class="line">    playerRef.<span class="property">current</span> = <span class="keyword">new</span> <span class="title class_">VideoPlayer</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上就是 <code>useRef</code> 官方提供的三種使用情境以及對應的範例，在整理的過程中也讓我更加認識 <code>useRef</code> 了，希望也能幫助到你唷！</p>
+<h2 id="最後，請注意-useRef-使用事項"><a href="#最後，請注意-useRef-使用事項" class="headerlink" title="最後，請注意 useRef 使用事項"></a>最後，請注意 useRef 使用事項</h2><p>Web Dev Simplified 的講者在其 <code>useRef</code> 教學影片中特別強調，雖然 useRef 有多種用途，但它並不應該過度取代 <code>useState</code>。特別是在處理用戶交互，如值的更改（onChange Value）時，過度依賴 <code>useRef</code> 可能會讓程式碼變得過於複雜。也可能讓你失去 React Hook 的渲染生命週期（re-render life cycle）所帶來的優勢。</p>
+<hr>
+<p>💬 參考資料：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/@WebDevSimplified">Web Dev Simplified</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40016215/article/details/124991559">react hook 父调用子的方法 useRef</a></li>
+</ol>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2023/09/03/01-props/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>
