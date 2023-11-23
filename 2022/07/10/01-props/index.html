@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【圖解】React：常見的父子傳值方法 Props | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/React/">
+                            React
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Props/">
+                            Props
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【圖解】React：常見的父子傳值方法 Props
+            
+            
+        </div>
+        <span class="post-date">
+            7月 10, 2022
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <h2 id="為什麼要用-Props？"><a href="#為什麼要用-Props？" class="headerlink" title="為什麼要用 Props？"></a>為什麼要用 Props？</h2><p>在剛開始學 React 的時候我很喜歡用 Redux 來做狀態集中管理，但是開始工作才發現原來 props 這麼好用。當你的 Components 很簡單只有父與子兩個層級，那麼 props 就是你最好的傳遞資料的好夥伴唷！</p>
+<h3 id="什麼是-Props？"><a href="#什麼是-Props？" class="headerlink" title="什麼是 Props？"></a>什麼是 Props？</h3><p>Props stand for “Properties.” They are read-only components. Props are also how you pass data from one component to another, as parameters. </p>
+<p>簡而言之 Props 有以下幾個特色：</p>
+<ol>
+<li>Props 代表了屬性，傳到 Components 內不能做修改，只能讀取</li>
+<li>Props 就是在 React Components 間傳遞的參數</li>
+<li>當我們有不只一層 Components 時，Props 就是父層與子層的溝通橋樑</li>
+</ol>
+<p>以下圖解兩種比較常用到的傳值方法，分別是父傳子與子傳父。若今天你的 Components 已經包到祖、父、子三個層級的話，就不適用以下的情境圖唷！</p>
+<br/>
+
+<h2 id="Props-在父子傳值時的使用方法"><a href="#Props-在父子傳值時的使用方法" class="headerlink" title="Props 在父子傳值時的使用方法"></a>Props 在父子傳值時的使用方法</h2><h3 id="1-從父傳到子"><a href="#1-從父傳到子" class="headerlink" title="1. 從父傳到子"></a>1. 從父傳到子</h3><p> <img src="/images/blog001.jpeg" alt="父傳子"></p>
+<p>所有的狀態（state）都是在父層做控管，狀態改變後再將結果傳到子層，讓子層因此變化而改變畫面渲染結果。傳到子層時我們可以使用 {  } 大括號承接資料，也就是所謂的物件解構賦值。常見的使用情境有 Loading 狀態、表單欄位編輯狀態、欄位必填狀態、API 取回的資料給子層渲染。</p>
+<h3 id="EX-以點擊按鈕改變欄位編輯狀態"><a href="#EX-以點擊按鈕改變欄位編輯狀態" class="headerlink" title="EX. 以點擊按鈕改變欄位編輯狀態"></a>EX. 以點擊按鈕改變欄位編輯狀態</h3><p>如果在父層設有一個按鈕負責控管子層欄位的編輯狀態，點擊後子層的表單從不能編輯變為可以編輯（disabled&#x3D;true &#x3D;&gt; disabled&#x3D;false），我們會把 editStatus 直接傳入子層，讓子層重新渲染。</p>
+<br/>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//父層</span></span><br><span class="line"><span class="keyword">const</span> [editableStatus, setEditableStatus] = <span class="title function_">useState</span>(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">button</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">    <span class="attr">type</span>=<span class="string">&quot;button&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">    <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-xml">        setEditableStatus(!editableStatus);</span></span><br><span class="line"><span class="language-xml">    &#125;&#125;&gt;</span></span><br><span class="line"><span class="language-xml">    點我編輯表單</span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">FormComponent</span> <span class="attr">editStatus</span>=<span class="string">&#123;editStatus&#125;/</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//子層</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">FormComponent</span> = (<span class="params">&#123; editStatus &#125;</span>) =&gt; &#123;</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">&quot;input&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">disabled</span>=<span class="string">&#123;editStatus&#125;</span> /&gt;</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">FormComponent</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="別忘了監聽變化！"><a href="#別忘了監聽變化！" class="headerlink" title="別忘了監聽變化！"></a>別忘了監聽變化！</h3><p>如果子層的值有成功傳入，畫面卻沒有重新渲染，這時候別忘記檢查自己的 component 的 render 狀態有沒有因為新的值傳入而 re-render，大部分的情況都是因為狀態改變，但畫面卻沒有被觸發。</p>
+<br/>
+
+<h3 id="2-從子傳給父"><a href="#2-從子傳給父" class="headerlink" title="2. 從子傳給父"></a>2. 從子傳給父</h3><p> <img src="/images/blog002.jpeg" alt="子傳父"></p>
+<p>子傳給父的情境，所有的狀態（state）也是在父層做控管，但因為狀態變化是在子層操作的，因此此情境我們會將整個 function 傳入子層，讓子層可以直接操作此 function。而在子層操作此 function 後再將 output Value 傳回父層。常見的情境是使用者在子層輸入值後，將此值傳入父層並呼叫 Post API。</p>
+<h3 id="EX-Input-欄位輸入值，並將值回傳-API"><a href="#EX-Input-欄位輸入值，並將值回傳-API" class="headerlink" title="EX. Input 欄位輸入值，並將值回傳 API"></a>EX. Input 欄位輸入值，並將值回傳 API</h3><p>在子層有一 Input 欄位，使用者輸入數值後，我們把數值透過 function 傳回父層，讓父層可以取得此數值，並進一步將此數值傳給後端。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//父層</span></span><br><span class="line"><span class="keyword">const</span> [data, setData] = <span class="title function_">useState</span>([]);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">handleSubmitData</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="title function_">uploadDataAPI</span>(data);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">FormComponent</span> <span class="attr">setData</span>=<span class="string">&#123;setData&#125;/</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//子層</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">FormComponent</span> = (<span class="params">&#123; setData &#125;</span>) =&gt; &#123;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">input</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">    <span class="attr">id</span>=<span class="string">&quot;input&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">    <span class="attr">type</span>=<span class="string">&quot;number&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">    <span class="attr">onChange</span>=<span class="string">&#123;(event)</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-xml">        setData(event.target.value);</span></span><br><span class="line"><span class="language-xml">    &#125;&#125;</span></span><br><span class="line"><span class="language-xml">/&gt;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">FormComponent</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>這兩種就是平常開發最常用的 props 傳值情境，希望圖解有幫助到大家，我也是多實作幾次才更能理解這些情境，菜鳥的路不簡單，我們一起繼續努力。</p>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+                <div class="icon arrow-left"></div>
+                <div class="post-link">
+                    <a href="/2022/07/13/03-typeScript-utility/">Prev</a>
+                </div>
+            
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2022/07/10/02-scroll-into-view/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>

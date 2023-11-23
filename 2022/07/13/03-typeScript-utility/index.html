@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【筆記】Type 難了 (1) - 進階 TypeScript 型別應用 | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/TypeScript/">
+                            TypeScript
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Utility-Types/">
+                            Utility Types
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【筆記】Type 難了 (1) - 進階 TypeScript 型別應用
+            
+            
+        </div>
+        <span class="post-date">
+            7月 13, 2022
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <h2 id="Why-TypeScript？"><a href="#Why-TypeScript？" class="headerlink" title="Why TypeScript？"></a>Why TypeScript？</h2><p>接觸前端開發半年，聽各方大大推 TypeScript 的好，而開始認識 TypeScript，剛開始接觸時碰到無限多的報錯，真的是很想一直 Any 下去！</p>
+<p>在開始介紹進階用法前先來回顧一下 TS 幾個優點：</p>
+<ol>
+<li>避免 Reference Error、Type Error、undefined 等常見問題發生</li>
+<li>在不嚴重破壞程式碼的情況下，重構程式碼更容易！TS 讓我們更了解資料組成與變數的意義</li>
+<li>TS 也能使大型、複雜的程式碼更易閱讀，非常適合用在大型專案開發上</li>
+</ol>
+<h2 id="Advances-Type-amp-Utility-Types"><a href="#Advances-Type-amp-Utility-Types" class="headerlink" title="Advances Type &amp; Utility Types"></a>Advances Type &amp; Utility Types</h2><p>這篇筆記主要會記錄一些很實用的進階 Type 運用＆延伸的小工具，希望大家可以在閱讀的同時思考 「為什麼要有這些進階 Type 的使用？它想要解決什麼問題？」</p>
+<h3 id="💡-Type-vs-Interface"><a href="#💡-Type-vs-Interface" class="headerlink" title="💡 Type vs Interface"></a>💡 Type vs Interface</h3><p> <img src="/images/Type001.jpeg" alt="TypeVSInterface"></p>
+<h3 id="💡-Keyof-Operator-「取物件型別的-Key-值」"><a href="#💡-Keyof-Operator-「取物件型別的-Key-值」" class="headerlink" title="💡 Keyof Operator 「取物件型別的 Key 值」"></a>💡 Keyof Operator 「取物件型別的 Key 值」</h3><p><img src="/images/Type002.jpeg" alt="Keyof"></p>
+<h3 id="💡-Typeof-「取物件資料轉為該物件型別」"><a href="#💡-Typeof-「取物件資料轉為該物件型別」" class="headerlink" title="💡 Typeof 「取物件資料轉為該物件型別」"></a>💡 Typeof 「取物件資料轉為該物件型別」</h3><p>TS 的 Typeof 跟我們在 JS 的使用方式不太一樣，在 JS 裡是用來判斷型別的而在 TS 裡 Typeof 可以幫我把 TypeScript「自動推導的結果」建立成一個可以被使用的型別，當我們有一個物件想要復用其型別時， Typeof 就派上用場哩！<br><br/></p>
+<p><img src="/images/Type003.jpeg" alt="Typeof"></p>
+<h3 id="💡-Keyof-Typeof"><a href="#💡-Keyof-Typeof" class="headerlink" title="💡 Keyof Typeof"></a>💡 Keyof Typeof</h3><p><img src="/images/Type004.jpeg" alt="Keyof&amp;Typeof"></p>
+<h3 id="💡-Generic-Types"><a href="#💡-Generic-Types" class="headerlink" title="💡 Generic Types"></a>💡 Generic Types</h3><p>通用型別（Generic Types）是指在定義宣告時不預先指定具體的型別<br>執行的時候才確認型別的特殊方式，經常用在函式、介面或類別等型別，我們平常使用的 axios 底層就是大量使用了泛型唷！<br><br/></p>
+<p><img src="/images/Type005.jpeg" alt="Generic Types"></p>
+<h3 id="💡-ValueOf-「取物件型別的-Value-值」"><a href="#💡-ValueOf-「取物件型別的-Value-值」" class="headerlink" title="💡 ValueOf 「取物件型別的 Value 值」"></a>💡 ValueOf<T> 「取物件型別的 Value 值」</h3><p>ValueOf<T> 可以用來取得 type 的 Value 值，時常搭配通用型別使用，是開發中實用的型別小工具<br><br/></p>
+<p><img src="/images/Type006.jpeg" alt="ValueOf"></p>
+<h3 id="💡-Extend-amp-in-的使用方法"><a href="#💡-Extend-amp-in-的使用方法" class="headerlink" title="💡 Extend &amp; in 的使用方法"></a>💡 Extend &amp; in 的使用方法</h3><p><img src="/images/Type007.jpeg" alt="Extend &amp; in"></p>
+<h3 id="💡-Mapped-Type-避免重複造輪"><a href="#💡-Mapped-Type-避免重複造輪" class="headerlink" title="💡 Mapped Type 避免重複造輪"></a>💡 Mapped Type 避免重複造輪</h3><p>適用時機：</p>
+<ol>
+<li>改變原始類型的型態 → 避免重複有太多相同欄位名稱的 type</li>
+<li>複製 Entity 內容，不需要重新造輪子<br/></li>
+</ol>
+<p><img src="/images/Type008.jpeg" alt="Mapped Type"></p>
+<h3 id="💡-Conditional-Type-amp-infer"><a href="#💡-Conditional-Type-amp-infer" class="headerlink" title="💡 Conditional Type &amp; infer"></a>💡 Conditional Type &amp; infer</h3><ol>
+<li>T extends U ? X : Y<br>如果 T 符合 U 的型別範圍，返回型別 X，否則返回型別 Y</li>
+<li>infer U  代表待推斷的返回值型別，當我們希望條件符合特定的型別結構，但某個型別希望交由 TS 推斷時，可以加入 infer 關鍵字來幫忙<br/></li>
+</ol>
+<p><img src="/images/Type009.jpeg" alt="Conditional Type"></p>
+<br/>
+
+<h2 id="自製型別小工具-utility-types-的個人心法"><a href="#自製型別小工具-utility-types-的個人心法" class="headerlink" title="自製型別小工具 utility types 的個人心法"></a>自製型別小工具 utility types 的個人心法</h2><p>Utility Type 就像函式一樣可以帶入 input 得到 output，透過Utility Type 達成「放入一個型別，來建立出另一個型別」</p>
+<ol>
+<li>建議先把功能用實際案例寫出來 → 再把可以調成參數的地方抽出來</li>
+<li>理解 utility type → 建立適當斷句，不確定時就直接帶型別試試看</li>
+</ol>
+<br/>
+<br/>
+呼～一口氣分享了好多種 Type 的運用，不知道有沒有漏網之魚是大家開發時也很常運用到的，或是很實用的型別小工具？歡迎留言跟我分享，讓我們一起讓從 Type 難變成 Type 簡單吧！
+
+<h3 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h3><p>更多常用 utility types 可以參考：<a target="_blank" rel="noopener" href="https://vhudyma-blog.eu/13-most-used-utility-types-in-typescript/">13 Most Used Utility Types In TypeScript</a></p>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+                <div class="icon arrow-left"></div>
+                <div class="post-link">
+                    <a href="/2022/07/13/04-typeScript-react/">Prev</a>
+                </div>
+            
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2022/07/10/01-props/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>

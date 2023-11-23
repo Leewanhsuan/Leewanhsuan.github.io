@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【筆記】資料結構與演算法 (JavaScript) (2) - Sliding Window &amp; Recursion | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/Algorithm/">
+                            Algorithm
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/%E6%BC%94%E7%AE%97%E6%B3%95/">
+                            演算法
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Sliding-Window/">
+                            Sliding Window
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Two-Pointer/">
+                            Two Pointer
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Recursion/">
+                            Recursion
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【筆記】資料結構與演算法 (JavaScript) (2) - Sliding Window &amp; Recursion
+            
+            
+        </div>
+        <span class="post-date">
+            2月 16, 2023
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <p>這篇是接著「資料結構與演算法 (JavaScript)（1）」所撰寫的第二篇，一樣是<a target="_blank" rel="noopener" href="https://www.udemy.com/course/algorithm-data-structure/?src=sac&kw=%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B%E8%88%87%E6%BC%94%E7%AE%97%E6%B3%95">資料結構與演算法 (JavaScript)</a> 的課程筆記，這篇著重在 Sliding Window 與 Recursion 這兩種演算法，相關的例題都是課程裡的提供的練習，接著進入正題溜～</p>
+<h2 id="Sliding-Window-滑動視窗法"><a href="#Sliding-Window-滑動視窗法" class="headerlink" title="Sliding Window (滑動視窗法)"></a>Sliding Window (滑動視窗法)</h2><p>不太確定這個演算法的中文怎麼稱呼才好， Sliding Window 演算法是非常廣泛運用的演算法，這個名字最早是從滑動視窗協議（Sliding Window Protocol）而來的，這個協議被運用在網路傳輸的流量控制，避免傳輸上的壅塞。</p>
+<p>說到 Sliding Window 我腦中就浮現國中地科的圓形星座盤，哈哈哈這樣有感覺嗎？<br>沒有的話繼續往下看看張圖，就是 Sliding Window 的運算邏輯：<br><img src="https://cdn.tealfeed.com/articles/content-images/6297b46357c93285cbbca84c/1654109346418-123360.gif" alt="Algorithm"><br><a target="_blank" rel="noopener" href="https://hackmd.io/@SupportCoding/Sliding_Window">Image Source: Sliding Window Algorithm</a></p>
+<p> Sliding Window 用在演算法上其實就如其名，在做搜索和運算時只針對固定的區間（視窗）做計算，再將該視窗移動，並做相同的搜索與迭代計算目標，通常出現在計算陣列與字串的問題。</p>
+<h3 id="範例題-1-：MaxSum"><a href="#範例題-1-：MaxSum" class="headerlink" title="範例題 (1)：MaxSum"></a>範例題 (1)：MaxSum</h3><p> 來看看這一個很常出現的考題「找最大加總」，就很適合使用 Sliding Window 的邏輯去解，在一個特定 Array 中尋找數個鄰近數字相加的最大值，以下題為例，若要找三數相加最大值，那我們會從 [1,3,5]、[3,5,7]、[5,7,9]…以此類推的方式去做相加，並不斷尋找最大值，那這裡的滑動視窗尺寸就是 3。</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">const arr = [1, 3, 5, 7, 9, 11, -13, 15, 17, -11];</span><br><span class="line"></span><br><span class="line">const MaxSum = (arr, size) =&gt; &#123;</span><br><span class="line">    let maxValue = -Infinity;</span><br><span class="line"></span><br><span class="line">    if (size &gt; arr.length) &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (let i = 0; i &lt;= arr.length - size; i++) &#123;</span><br><span class="line">        let attempt = 0;</span><br><span class="line"></span><br><span class="line">        for (let j = i; j &lt; i + size; j++) &#123;</span><br><span class="line">            attempt += arr[j];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (attempt &gt; maxValue) &#123;</span><br><span class="line">            maxValue = attempt;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return maxValue;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 27</span><br><span class="line">MaxSum(arr, 3);</span><br><span class="line"></span><br><span class="line">// 32</span><br><span class="line">MaxSum(arr, 2);</span><br><span class="line"></span><br><span class="line">const BetterMaxSum = (arr, size) =&gt; &#123;</span><br><span class="line">    if (size &gt; arr.length) &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    let maxValue = 0;</span><br><span class="line">    for (let i = 0; i &lt; size; i++) &#123;</span><br><span class="line">        maxValue += arr[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    let tempValue = maxValue;</span><br><span class="line">    for (let j = size; j &lt; arr.length; j++) &#123;</span><br><span class="line">        tempValue = tempValue + arr[j] - arr[j - size];</span><br><span class="line">        if (tempValue &gt; maxValue) &#123;</span><br><span class="line">            maxValue = tempValue;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return maxValue;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">BetterMaxSum(arr, 3);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="範例題-2-：MinSubArray"><a href="#範例題-2-：MinSubArray" class="headerlink" title="範例題 (2)：MinSubArray"></a>範例題 (2)：MinSubArray</h3><p>這一題也是陣列題，在一個陣列尋找任一段子陣列，該子陣列數值加總等於題目所求，且子陣列越短越好。這題比較特別的是因為沒有規定加總的子陣列長度，因此此題的視窗端點會是動態變化的，用到了 two pointer 的演算概念。</p>
+<p>如圖，給一個 start 與 end，並持續移動 end 值到找到能夠符合目標的總和，若有著接移動 start 試著尋找更短的答案。</p>
+<p><img src="/images/ArrMinSub.png" alt="Algorithm"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">const arr = [1, 3, 5, 7, 9, 11, -13, 15, 17, -11];</span><br><span class="line"></span><br><span class="line">const MinSubArray = (arr, sum) =&gt; &#123;</span><br><span class="line">    let start = 0;</span><br><span class="line">    let end = 0;</span><br><span class="line">    let total = 0;</span><br><span class="line">    let minLength = Infinity;</span><br><span class="line"></span><br><span class="line">    while (start &lt; arr.length) &#123;</span><br><span class="line">        if (total &lt; sum &amp;&amp; end &lt; arr.length) &#123;</span><br><span class="line">            total += arr[end];</span><br><span class="line">            end++;</span><br><span class="line">        &#125; else if (total &gt;= sum) &#123;</span><br><span class="line">            let currentLength = end - start;</span><br><span class="line">            if (minLength &gt; currentLength) &#123;</span><br><span class="line">                minLength = currentLength;</span><br><span class="line">            &#125;</span><br><span class="line">            total -= arr[start];</span><br><span class="line">            start++;</span><br><span class="line">        &#125; else if (end &gt;= arr.length) &#123;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (minLength === Infinity) &#123;</span><br><span class="line">        console.log(&quot;can&#x27;t find the array!&quot;);</span><br><span class="line">        return -1;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        console.log(minLength);</span><br><span class="line">        return minLength;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">MinSubArray(arr, 20);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Recursion-遞迴演算法"><a href="#Recursion-遞迴演算法" class="headerlink" title="Recursion 遞迴演算法"></a>Recursion 遞迴演算法</h2><p><strong>1. A function that calls itself</strong><br><strong>2. Using a data structure called stack. When we are calling a function inside another function, we are on the call stack</strong> </p>
+<p>遞迴演算法的重要概念有以上兩個要點，一是他是一個被自己呼叫的函式，不斷重複著本身的函式，直到符合條件跳出迴圈。二是我們之所以能使用遞迴是應用函式堆疊 (stack) 的資料結構，stack 這個資料結構本身具有「先進後出」的特性，而遞迴也是會等到一個函式跑完之後再去執行下一次呼叫自己的函式。</p>
+<p>了解完遞迴特性，講師 Wilson 以這個數學題目來表達遞迴的運算過程，if (n &#x3D;&#x3D;&#x3D; 1) 是跳出迴圈的條件，只要 n 為 1，就不會再呼叫本身的函式，但當 n 不為 1 時則會不斷地呼叫自己本身的函式。</p>
+<p>也因此下方這段程式碼，雖然只呼叫了 Recursion(3)，但背後其實依序執行了 Recursion(3) &#x3D;&gt; Recursion(2) &#x3D;&gt; Recursion(1)。這也就符合遞迴演算法的「自己呼叫自己直到符合條件跳出迴圈」的要點。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const Recursion = (n) =&gt; &#123;</span><br><span class="line">    if (n === 1) &#123;</span><br><span class="line">        return 10;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return Recursion(n - 1) + 15;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// Ans: 40 </span><br><span class="line">Recursion(3);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="範例題-1-Fibonacci-Sequence"><a href="#範例題-1-Fibonacci-Sequence" class="headerlink" title="範例題 (1) Fibonacci Sequence"></a>範例題 (1) Fibonacci Sequence</h3><p>遞迴的範例一是很經典的「斐波那契數列」考題就是運用遞迴的函式，斐波那契數列的函式如下：<br>F(0) &#x3D; 0, F(1) &#x3D; 1<br>F(n) &#x3D; F(n - 1) + F(n - 2)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">const F(n) =&gt; &#123;</span><br><span class="line">    if (n === 0)&#123;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125; else if (n === 1)&#123;</span><br><span class="line">        return 1;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return F(n - 1) + F(n - 2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 試算 </span><br><span class="line">for (let i = 0; i &lt; 10; i++)&#123;</span><br><span class="line">    console.log(F(i))</span><br><span class="line">&#125;</span><br><span class="line">// Ans: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="範例題-2-Array-of-Arrays"><a href="#範例題-2-Array-of-Arrays" class="headerlink" title="範例題 (2) Array of Arrays"></a>範例題 (2) Array of Arrays</h3><p>Array of Arrays 一樣是運用了遞迴的演算邏輯，題目給了一個包很多層長得很醜的 Array，目標是把它攤平成一個 Array，這題跳出迴圈的邏輯就是「當不再是 Array 時就結束」。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">let uglyArr = [[1, 2], 3, 4, [4, [5]]];</span><br><span class="line">let result = [];</span><br><span class="line">const flattenArr = (uglyArr) =&gt; &#123;</span><br><span class="line">    flatter(uglyArr);</span><br><span class="line">    return result;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const flatter = (arr) =&gt; &#123;</span><br><span class="line">    for (let i = 0; i &lt; arr.length; i++) &#123;</span><br><span class="line">        // 如果還是 Array 則繼續丟進 flatter 繼續拆解</span><br><span class="line">        if (Array.isArray(arr[i])) &#123;</span><br><span class="line">            flatter(arr[i]);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 如果已經不是 Array 則推 result 這個攤平的 Array 中</span><br><span class="line">            result.push(arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// Ans: [ 1, 2, 3, 4, 4, 5 ]</span><br><span class="line">flattenArr(uglyArr);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>以上就是常見演算法 Sliding Window 與 Recursion 的筆記囉！之後若有機會會再針對 Sorting Algorithm 排序演算法的內容跟大家分享，兩隻腳一起跨進演算法的世界吧～</p>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+                <div class="icon arrow-left"></div>
+                <div class="post-link">
+                    <a href="/2023/02/16/10-Algorithm-1/">Prev</a>
+                </div>
+            
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2022/12/30/05-Git/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>

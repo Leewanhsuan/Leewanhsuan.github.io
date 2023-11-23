@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【筆記】Type 難了 (2) - 用 TypeScript 活用 React-Component | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/React/">
+                            React
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Props/">
+                            Props
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/TypeScript/">
+                            TypeScript
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【筆記】Type 難了 (2) - 用 TypeScript 活用 React-Component
+            
+            
+        </div>
+        <span class="post-date">
+            7月 13, 2022
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <p>TypeScript 在開發上除了定義每個 Component 的 Props Type 以外，我們還可以怎麼運用 Type 在我們原本的開發上？</p>
+<h2 id="TypeScript-在-React-框架中的運用"><a href="#TypeScript-在-React-框架中的運用" class="headerlink" title="TypeScript 在 React 框架中的運用"></a>TypeScript 在 React 框架中的運用</h2><p>React typescript 有一些常見的 element types，是我們在使用 react 時會常常看到的，例如 props 的型別。比較常見的有 ReactNode 跟 JSX.element ，相信大家都不陌生！</p>
+<p>在以前使用純 html 語法時，我們也常常用這樣巢狀的方式包住多個元素。那麼我們要怎麼在自製元素中使用包在中間的「其他東西」呢？在 react component中，我們把包在標籤中間的東西，稱為 children。他就是一種 ReactNode</p>
+<p><img src="/images/TS-React.001.jpeg" alt="TS-React"></p>
+<p>想知道過多 React Types 可以從 Node module 裡面的 react 資料夾去尋找對應的 type element 唷！</p>
+<p><img src="/images/TS-React.002.jpeg" alt="TS-React"></p>
+<h2 id="React-Component-的型別寫法"><a href="#React-Component-的型別寫法" class="headerlink" title="React Component 的型別寫法"></a>React Component 的型別寫法</h2><p>目前官方不建議使用 React.FC &lt; &gt;，而是直接像平常使用 JavaScript 寫 Components 一樣，TypeScript 會把這樣的 Component 型別自動推斷為「 JSX.element 」</p>
+<ol>
+<li><p>一旦將 React 元件的型別定義成 React.FC&lt; &gt; 型別後，它會自動接受 children 作為可以傳入的 props。但在這個 React 元件中並不會使用到 children</p>
+</li>
+<li><p>使用 React.FC&lt;&gt; 若再針對元件定義 defaultProps 時可能會有誤判的情況</p>
+</li>
+<li><p>更多 Component With Types 的寫法可以參考下方第三張圖片，要先定義好 Props 的型別或是直接將型別寫在 Component 的參數上都可以</p>
+</li>
+</ol>
+<p><img src="/images/TS-React.003.jpeg" alt="TS-React"></p>
+<h2 id="Specific-Components-無法重複使用的元件"><a href="#Specific-Components-無法重複使用的元件" class="headerlink" title="Specific Components 無法重複使用的元件"></a>Specific Components 無法重複使用的元件</h2><p>我們平常設計 Component 都是先決定好傳入的 props 型別，這樣的 Component 比較難以複用，如下圖就是我以 Todo List 為例撰寫的 React Component，這樣子的寫法就是所謂的 Specific Components。</p>
+<p><img src="/images/TS-React.004.jpeg" alt="TS-React"></p>
+<h2 id="Generic-Components-寫一個可以被重複使用的組件"><a href="#Generic-Components-寫一個可以被重複使用的組件" class="headerlink" title="Generic Components 寫一個可以被重複使用的組件"></a>Generic Components 寫一個可以被重複使用的組件</h2><p>那要如何撰寫一個可以被重複使用的組件呢？這樣的組件主要包含三個要素，Props、Component 以及 Usage</p>
+<h3 id="Props"><a href="#Props" class="headerlink" title="Props"></a>Props</h3><ol>
+<li>renderItem：渲染資料的 function </li>
+<li>keyExtractor：渲染資料的 key index</li>
+<li>Data：渲染的陣列資料，型別未定</li>
+</ol>
+<h3 id="Component"><a href="#Component" class="headerlink" title="Component"></a>Component</h3><p>所有的資料型別會依據傳入的資料而自定義，T extend unknown 代表 T 的型別未定義，泛型的特色就是不先定義物件型別，誰傳進去就是為的型別。</p>
+<p><img src="/images/TS-React.005.jpeg" alt="TS-React"></p>
+<h3 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h3><p>傳入對應的 Key、data、對應 render 的 Value 值，使用時無需再次將資料（陣列）以 .map 遍歷處理。可以直接傳入資料和函數。</p>
+<p><img src="/images/TS-React.006.jpeg" alt="TS-React"></p>
+<p>上述的這種把泛型的設計概念運用在 Component 設計上就是源自於 React-Native 的 FlatList component 概念，因為復用性高也是許多 UI 框架中各種元件的原型設計。</p>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+                <div class="icon arrow-left"></div>
+                <div class="post-link">
+                    <a href="/2022/08/21/07-AWS-CCP-2/">Prev</a>
+                </div>
+            
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2022/07/13/03-typeScript-utility/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>

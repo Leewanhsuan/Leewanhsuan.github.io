@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【筆記】Master the Coding Interview (1) - BigO 時間複雜度 | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/BigO/">
+                            BigO
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Time-complexity/">
+                            Time complexity
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Coding-Interview-Must-Know/">
+                            Coding Interview Must Know
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【筆記】Master the Coding Interview (1) - BigO 時間複雜度
+            
+            
+        </div>
+        <span class="post-date">
+            12月 27, 2022
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <p>最近在惡補自己的資料結構與演算法，於是選了這門 Andrei Neagoie（以下簡稱 A 大） 的課程：<a target="_blank" rel="noopener" href="https://www.udemy.com/course/master-the-coding-interview-data-structures-algorithms">Master the Coding Interview: Data Structures + Algorithms</a>，對於非本科生來說也不會太艱深，但光是上課怕自己很容易拋諸腦後，決定把自己的重點消化後整理成 Master the Coding Interview 系列筆記。</p>
+<p>這篇的重點是認識 BigO，第一次聽到 BigO 的概念是在 Leetcode 刷題時，發現怎麼提交怎麼超時，近一步去了解才知道基本上使用雙層迴圈就是時間複雜度 O(n^2)，也就是計算花費時間過多的情況在 Leetcode 考題中的會被拒絕提交。也因此許多看似雙迴圈比對（同事都稱他為暴力解）就能解的考題其實都在考該如何把時間複雜度控制在 O(n) 或是 O(Log n)。</p>
+<h2 id="為什麼我們要認識-Big-O-時間複雜度？"><a href="#為什麼我們要認識-Big-O-時間複雜度？" class="headerlink" title="為什麼我們要認識 Big O 時間複雜度？"></a>為什麼我們要認識 Big O 時間複雜度？</h2><p>首先 A 大先拋出一個直球，問了 <strong>What is good code？</strong> </p>
+<ol>
+<li>Readable：可讀性佳，也就是很好閱讀與維護的程式碼，常常聽到 Clean Code、Coding Style Consistent 等都屬於這項</li>
+<li>Scalable：可規模化，意思是你的程式在資料量大時還能夠在可接受的時間與容量限制下運作。沒錯 Scalable 又可以細分為 Speed 與 Memory</li>
+</ol>
+<p>Memory 就是空間複雜度，而 Speed 則是呼應時間複雜度。在時間複雜度中我們會用 BigO 這樣的符號來表示其層級，其實時間複雜度背後代表的意義不是該函式所花費的時間，而是語法執行的次數，只是花費的時間與演算法中的執行次數成正比，因此我們會用花費時間來思考。</p>
+<h2 id="認識幾個常見的-Big-O"><a href="#認識幾個常見的-Big-O" class="headerlink" title="認識幾個常見的 Big O"></a>認識幾個常見的 Big O</h2><p><strong>1. O(n) Linear Time</strong><br>runTime 由 n 決定，我們常用的 for loop 就是這個情境，隨著輸入的值越多，執行的次數也會成正比的增長</p>
+<p><strong>2. O(1) Constant Time</strong><br>一次只做一件事，因此他會是一條平行的線</p>
+<p><strong>3. O(n^2)</strong><br>雙層 for loop 情境，Leetcode 許多考題都在解決 O(n^2) 的時間複雜度</p>
+<p><strong>4. O(!n)</strong><br>n 階，Nested loop with all inputs，基本上出現這個情境就是砍掉重寫，所以叫做 Oh<del>No</del></p>
+<p>這張圖是很經典的時間複雜度比較圖，把所有的時間複雜度的情況都畫了出來，X 軸 Elements 是 Input 到函式中的數值，y 軸 Operations 就是該函式執行的次數，隨著數值增加一直到接近無限大時，所對應的執行次數會維持、遞增甚至指數成長。</p>
+<p><img src="/images/BigO.jpeg" alt="BigO"><br><a target="_blank" rel="noopener" href="https://www.freecodecamp.org/news/all-you-need-to-know-about-big-o-notation-to-crack-your-next-coding-interview-9d575e7eec4/">Image Source</a></p>
+<h2 id="影響函式運算時間的幾個要素"><a href="#影響函式運算時間的幾個要素" class="headerlink" title="影響函式運算時間的幾個要素"></a>影響函式運算時間的幾個要素</h2><p>只要掌握這幾個要素，也能讓自己的程式碼運算速度提升，但是其實現在的電腦效能都很好，除非資料量大不然其實很難察覺到毫秒之間的差異。</p>
+<ol>
+<li>Operation 賦值運算子（<code>+</code> <code>-</code> <code>*</code> <code>/</code>）</li>
+<li>Comparisons 比較運算子 (<code>&gt;</code> <code>&lt;</code> <code>=</code> )</li>
+<li>Looping 迴圈（<code>for</code>, <code>while</code>）</li>
+<li>Outside Function Call <code>func(func(func()))</code></li>
+</ol>
+<h2 id="掌握時間複雜度的-4-守則"><a href="#掌握時間複雜度的-4-守則" class="headerlink" title="掌握時間複雜度的 4 守則"></a>掌握時間複雜度的 4 守則</h2><p><strong>1. Worst Case</strong></p>
+<p>永遠都要思考最糟的情況，例如在 Array 裡找數值，結果 Array 的最後一個值才是我們要的數值，那就代表有 n 個值就要跑 n 次。</p>
+<pre><code><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Zoo</span> = [bear, giraffe, elephant, pig, monkey]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">findMonkey</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="title class_">Zoo</span>.<span class="title function_">find</span>( <span class="function"><span class="params">item</span> =&gt;</span> </span><br><span class="line">        item === <span class="string">&quot;monkey&quot;</span></span><br><span class="line">    )</span><br><span class="line">&#125; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</code></pre>
+<p><strong>2. Remove Constant</strong><br>不論在函式內宣告多少個常數，常數都是可以被忽略的。</p>
+<p><strong>3. Different Terms of Input</strong><br>注意輸入函式的 Inputs，若有 K 個 Inputs 分別去跑 for loop，那時間複雜度就「不會」是 O(Kn) 而是 O(A + B)。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arrayA.<span class="title function_">forEach</span>(<span class="function">()=&gt;</span>&#123;&#125;)</span><br><span class="line">arrayB.<span class="title function_">forEach</span>(<span class="function">()=&gt;</span>&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>4. Drop Non Dominants</strong><br>忽略非主要控制的函式，哈翻成中文好奇怪～ 簡單來說就是直接取複雜度最高的情境，其他都可以被省略。例如：O(n + n^2) 可以直接視為 O(n^2)。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// O(n)</span></span><br><span class="line">arrayA.<span class="title function_">forEach</span>(<span class="function">()=&gt;</span>&#123;&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// O(n^2)</span></span><br><span class="line">arrayB.<span class="title function_">forEach</span>(<span class="function">(<span class="params">number</span>) =&gt;</span> &#123;</span><br><span class="line">    number.<span class="title function_">forEach</span>(<span class="function">()=&gt;</span>&#123;&#125;);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>以上就是 A 大在 Big O 單元中提到的幾個重點，加上查了一些資料的補充，大家有想法都可以再跟我分享唷！繼續去上課囉～</p>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+                <div class="icon arrow-left"></div>
+                <div class="post-link">
+                    <a href="/2022/12/30/05-Git/">Prev</a>
+                </div>
+            
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2022/12/27/09-Canvas/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【筆記】資料結構與演算法 (JavaScript) (1) - Linear Search &amp; Binary Search | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/Algorithm/">
+                            Algorithm
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/%E6%BC%94%E7%AE%97%E6%B3%95/">
+                            演算法
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Linear-Search/">
+                            Linear Search
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Binary-Search/">
+                            Binary Search
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Counter/">
+                            Counter
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Pointer/">
+                            Pointer
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【筆記】資料結構與演算法 (JavaScript) (1) - Linear Search &amp; Binary Search
+            
+            
+        </div>
+        <span class="post-date">
+            2月 16, 2023
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <p>最近又上了這門課程－<a target="_blank" rel="noopener" href="https://www.udemy.com/course/algorithm-data-structure/?src=sac&kw=%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B%E8%88%87%E6%BC%94%E7%AE%97%E6%B3%95">資料結構與演算法 (JavaScript)</a>，一樣附上 Udemy 課程連結給有需要的人參考唷！這門課是全中文授課的，如果對於自己的英文能力沒那麼有把握的話可以選擇這門課程，教得很好懂唷！這篇文章的重點會著重在 Linear Search 線性搜尋法 與 Binary Search 二分搜尋法這兩種演算法，也會分享 Wilson 在課程中特別分享的 Counter 與 Pointer 兩種常見的解題技巧。</p>
+<p>先看看這張圖，大概就可以理解這兩個演算法的差異：<br><img src="/images/Algorithm-1.png" alt="Algorithm"></p>
+<h2 id="什麼是演算法？"><a href="#什麼是演算法？" class="headerlink" title="什麼是演算法？"></a>什麼是演算法？</h2><p>什麼是演算法？來看看牛津字典的定義吧！”A process or set of rules to be followed in calculations or other problem-solving operations, especially by a computer.” 演算法是一個有序、有步驟與規則的計算過程，而這個計算過程能幫助我們解決特定問題。</p>
+<p>演算法也會有效能與適用在解決不同問題的差異，而演算法的效能會以「空間複雜度」以及「時間複雜度」作為評估標準，想了解空間複雜度可以參考這篇文章唷！<a target="_blank" rel="noopener" href="https://leewanhsuan.github.io/2022/12/25/08-BigO/">Master the Coding Interview (1) - BigO 時間複雜度</a></p>
+<h2 id="Linear-Search-線性搜尋法"><a href="#Linear-Search-線性搜尋法" class="headerlink" title="Linear Search (線性搜尋法)"></a>Linear Search (線性搜尋法)</h2><p>Linear Search 線性搜尋法大概是這門課程中最好懂的演算法了，線性搜尋法簡單來說就是從頭到尾一個個的搜尋，直到找到目標為止，例如下方的程式碼，就是遍歷 Array 中的每一個位置直到找到答案。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">const arr = [1, 3, 5, 7, 9, 11, 13, 15, 17];</span><br><span class="line"></span><br><span class="line">const LinearSearch = (arr, n) =&gt; &#123;</span><br><span class="line">    for (let i = 0; i &lt; arr.length; i++) &#123;</span><br><span class="line">        if (arr[i] === n) &#123;</span><br><span class="line">            return i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">LinearSearch(arr, 13);</span><br><span class="line">// 6 answer</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>Linear Search 的時間複雜度：</strong></p>
+<p><strong>1. Worst Case：O(n)</strong>  答案很慘的在第 n 個位置<br><strong>2. Best Case：O(1)</strong>  答案很讚的在第 1 個位置<br><strong>3. Average Case：O(n&#x2F;2)</strong> </p>
+<h2 id="Binary-Search-二分法"><a href="#Binary-Search-二分法" class="headerlink" title="Binary Search (二分法)"></a>Binary Search (二分法)</h2><p>Binary Search 二分法顧名思義就是不斷地分成兩部分再去針對特定一半做搜索。以下方的函式為例，當我們要在一個 Array 中找到目標數值，我們可以先將 Array 從中切開，取中間數值跟目標數值比對，刪去不可能的一半，再繼續對半，以此類推可以一直省去不必要的運算。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">const arr = [1, 3, 5, 7, 9, 11, 13, 15, 17];</span><br><span class="line"></span><br><span class="line">const BinarySearch = (arr, n) =&gt; &#123;</span><br><span class="line">    let min = 0;</span><br><span class="line">    let max = arr.length - 1;</span><br><span class="line"></span><br><span class="line">    while (min &lt;= max) &#123;</span><br><span class="line">        let middle = Math.floor((min + max) / 2);</span><br><span class="line">        if (n &gt; arr[middle]) &#123;</span><br><span class="line">            min = middle + 1;</span><br><span class="line">        &#125; else if (n &lt; arr[middle]) &#123;</span><br><span class="line">            max = middle - 1;</span><br><span class="line">        &#125; else if (n === arr[middle]) &#123;</span><br><span class="line">            return middle;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">BinarySearch(arr, 17);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>BinarySearch 的時間複雜度：</strong></p>
+<p><strong>1. Worst Case：</strong> O(log n)<br><strong>2. Best Case：</strong> O(1)  答案在 1&#x2F;2 的位置<br><strong>3. Average Case：</strong> O(log n) </p>
+<h3 id="二分法範例題："><a href="#二分法範例題：" class="headerlink" title="二分法範例題："></a>二分法範例題：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">const averagePair = (array, avg) =&gt; &#123;</span><br><span class="line">    let left = 0;</span><br><span class="line">    let right = array.length - 1;</span><br><span class="line">    let result = [];</span><br><span class="line"></span><br><span class="line">    while (right &gt; left) &#123;</span><br><span class="line">        let temp = (array[right] + array[left]) / 2;</span><br><span class="line">        if (temp &gt; avg) &#123;</span><br><span class="line">            right--;</span><br><span class="line">        &#125; else if (temp &lt; avg) &#123;</span><br><span class="line">            left++;</span><br><span class="line">        &#125; else if (temp === avg) &#123;</span><br><span class="line">            result.push([array[right], array[left]]);</span><br><span class="line">            right--;</span><br><span class="line">            left++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return result;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">averagePair([-11, 0, 1, 2, 3, 9, 14, 17, 21], 1.5);</span><br><span class="line">// [ [ 14, -11 ], [ 3, 0 ], [ 2, 1 ] ] answer</span><br></pre></td></tr></table></figure>
+
+<p>接著是兩個衍伸出來非常實用的解題技巧，分別是 Counter 與 Pointer（Wilson 有提到這樣的概念其實有很多種名稱，只是在這門課程裡用 Counter 與 Pointer 作為技巧名字。）</p>
+<h2 id="解題技巧-1：Counter"><a href="#解題技巧-1：Counter" class="headerlink" title="解題技巧 1：Counter"></a>解題技巧 1：Counter</h2><p>Counter 就是建立一個計算區 (object)，透過 key and value pair 的方式暫時記著要運算的數值，最後在從 key and value pair 中取得我們要的答案，這樣可以簡化運算的歷程。</p>
+<p><strong>1. General Skill when doing algorithm design</strong><br><strong>2. Using a counter object will reduce the complexity of algorithm</strong> </p>
+<h3 id="1-範例題：Frequency-Problem"><a href="#1-範例題：Frequency-Problem" class="headerlink" title="(1) 範例題：Frequency Problem"></a>(1) 範例題：Frequency Problem</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">const SameFrequency = (string1, string2) =&gt; &#123;</span><br><span class="line">    const arr1 = string1.split(&#x27;&#x27;);</span><br><span class="line">    const arr2 = string2.split(&#x27;&#x27;);</span><br><span class="line"></span><br><span class="line">    if (arr1.length !== arr2.length) &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    let counter1 = &#123;&#125;;</span><br><span class="line">    let counter2 = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    for (let i = 0; i &lt; arr1.length; i++) &#123;</span><br><span class="line">        if (counter1[arr1[i]]) &#123;</span><br><span class="line">            counter1[arr1[i]]++;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            counter1[arr1[i]] = 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (let i = 0; i &lt; arr2.length; i++) &#123;</span><br><span class="line">        if (counter2[arr2[i]]) &#123;</span><br><span class="line">            counter2[arr2[i]]++;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            counter2[arr2[i]] = 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (let property in counter1) &#123;</span><br><span class="line">        if (!counter2[property]) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        if (counter2[property] !== counter1[property]) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// counter1 &#123; a: 2, b: 1, c: 1 &#125;  counter2 &#123; a: 1, b: 2, c: 1 &#125;</span><br><span class="line">SameFrequency(&#x27;aabc&#x27;, &#x27;abbc&#x27;);</span><br><span class="line">// false answer</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="解題技巧-2：Pointer"><a href="#解題技巧-2：Pointer" class="headerlink" title="解題技巧 2：Pointer"></a>解題技巧 2：Pointer</h2><p>Pointer 中文是指標、定位的意思，Pointer 常用在解 string 或是 array 比對的考題中，我們可以透過定位指出特定位置的數值與另一個位置的數值做比對，像第一題 Palindrome 對稱題，就是第一個位置與最後一個位置比對，接著是第二個位置與倒數第二個位置做比對，以此類推，這樣的解法就是運用 Pointer 的概念。</p>
+<h3 id="1-範例題：Palindrome-（判斷單詞是否對稱）"><a href="#1-範例題：Palindrome-（判斷單詞是否對稱）" class="headerlink" title="(1) 範例題：Palindrome （判斷單詞是否對稱）"></a>(1) 範例題：Palindrome （判斷單詞是否對稱）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">const palindrome = (str) =&gt; &#123;</span><br><span class="line">    let left = 0;</span><br><span class="line">    let right = str.length - 1;</span><br><span class="line"></span><br><span class="line">    while (left &lt;= right) &#123;</span><br><span class="line">        if (str[left] === str[right]) &#123;</span><br><span class="line">            right--;</span><br><span class="line">            left++;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">palindrome(&#x27;tacocat&#x27;); //true</span><br><span class="line">palindrome(&#x27;hsuan&#x27;); //false</span><br><span class="line">palindrome(&#x27;madam&#x27;); //true</span><br></pre></td></tr></table></figure>
+<p>圖解 Pointer 概念：<br><img src="/images/Algorithm-2.png" alt="Algorithm"></p>
+<p>接下來這一題 Subsequence Problem 比較複雜，因為題目允許刪除中間多餘的字串，我們一樣把兩個 array 第一個位置的數值做比對，但是當值不同時，與之比對的字串就要往下再移一個位置去做比對，直到找到對應的值為止。</p>
+<h3 id="2-範例題：Subsequence-Problem-判斷長字串中是否包含段字串的字母"><a href="#2-範例題：Subsequence-Problem-判斷長字串中是否包含段字串的字母" class="headerlink" title="(2) 範例題：Subsequence Problem 判斷長字串中是否包含段字串的字母"></a>(2) 範例題：Subsequence Problem 判斷長字串中是否包含段字串的字母</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">const isSubsequence = (str1, str2) =&gt; &#123;</span><br><span class="line">    if (str1.length === 0) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    let pointer1 = 0;</span><br><span class="line">    let pointer2 = 0;</span><br><span class="line"></span><br><span class="line">    while (pointer2 &lt; str2.length) &#123;</span><br><span class="line">        if (str1[pointer1] === str2[pointer2]) &#123;</span><br><span class="line">            pointer1++;</span><br><span class="line">        &#125;</span><br><span class="line">        if (pointer1 &gt;= str1.length) &#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">        pointer2++;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">isSubsequence(&#x27;hello&#x27;, &#x27;hello World&#x27;); //true</span><br><span class="line">isSubsequence(&#x27;book&#x27;, &#x27;brooklyn&#x27;); //true</span><br><span class="line">isSubsequence(&#x27;abc&#x27;, &#x27;bac&#x27;); //false</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>以上就是資料結構與演算法 (JavaScript) (1) - Linear Search &amp; Binary Search 的課程摘要與練習題，很好我們一腳踏進演算法的世界了 XD</p>
+<p>參考文章：<a target="_blank" rel="noopener" href="https://tw.alphacamp.co/blog/algorithm-introduction">https://tw.alphacamp.co/blog/algorithm-introduction</a></p>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+                <div class="icon arrow-left"></div>
+                <div class="post-link">
+                    <a href="/2023/05/02/12-ChatGPT/">Prev</a>
+                </div>
+            
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2023/02/16/10-Algorithm-2/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>
