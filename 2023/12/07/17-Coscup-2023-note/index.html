@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【筆記】Coscup 2023 開源人年會 | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/conference/">
+                            conference
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【筆記】Coscup 2023 開源人年會
+            
+            
+        </div>
+        <span class="post-date">
+            12月 7, 2023
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <p>第一次參加開源人年會，認識了許多不熟悉的開源服務，也學到了一些關於 Chat GPT 的新知，以此篇文章簡單記錄一下年會上聽到的幾個實用的服務與方法：</p>
+<h2 id="💡-Airflow-base-ETL"><a href="#💡-Airflow-base-ETL" class="headerlink" title="💡 Airflow-base ETL"></a>💡 Airflow-base ETL</h2><p>處理數據實用的服務，解決資料透視的問題、好懂的視覺化的呈現，資料正確性的驗證等。</p>
+<h2 id="💡-AI-x2F-VR-with-AWS-AL-x2F-ML"><a href="#💡-AI-x2F-VR-with-AWS-AL-x2F-ML" class="headerlink" title="💡 AI&#x2F;VR with AWS AL&#x2F;ML"></a>💡 AI&#x2F;VR with AWS AL&#x2F;ML</h2><ol>
+<li>控制 token 使用: API Gateway → lambda → AWS STS</li>
+<li>Understanding Messages: lambda → s3, comprehend, AWS SNS</li>
+<li>Further analysis: AWS glue data catalog → AWS Athena → AWS S3</li>
+<li>VR: Babylon.js, Polly, Transcribe</li>
+</ol>
+<h2 id="💡-Open-Taiwan"><a href="#💡-Open-Taiwan" class="headerlink" title="💡 Open Taiwan"></a>💡 Open Taiwan</h2><p>這一場比較特別，主要是分享資料透過 Chat GPT plugin &#x2F; interpreter 的轉化、分析與產出的建議，以金融業及台灣公開資料為例</p>
+<ol>
+<li>Template-based Approach</li>
+<li>守門員系統：系統面 → 前端呈現&#x2F;規範輸入（去識別化、權限控管、使用軌跡紀錄） → 調整 IPO Format → 資料搜集 → Modaling 模型計算&#x2F;更新</li>
+<li>於商業使用上：資料來源合法性、資料處理流程如何不偏頗、資安與個資外洩的處理流程</li>
+</ol>
+<h2 id="💡-Public-Cloud"><a href="#💡-Public-Cloud" class="headerlink" title="💡 Public Cloud"></a>💡 Public Cloud</h2><p>GCP Cloud run 很適合做一些個人的 Side Project，在 Heroku 開始收費後是一個好選擇！他支援 Node.js 以容器化的方式快速部署一個產品。</p>
+<h2 id="💡-Dapr"><a href="#💡-Dapr" class="headerlink" title="💡 Dapr"></a>💡 Dapr</h2><ol>
+<li>運用在 Service Mesh 上的服務</li>
+<li>簡化開發上與第三方工具耦合的問題，做到不同公有雲遷移的便利性</li>
+</ol>
+<h2 id="💡-Apache-Kafka-vs-GCP-pub-x2F-sub"><a href="#💡-Apache-Kafka-vs-GCP-pub-x2F-sub" class="headerlink" title="💡 Apache Kafka vs GCP pub&#x2F;sub"></a>💡 Apache Kafka vs GCP pub&#x2F;sub</h2><p>主要都是在處理 Messaging system 的服務，都能應用在事件串流系統，有著分散式架構、能夠水平擴張等。Kafka 是來自 LinkedIn 的開源，GCP pub&#x2F;sub 就是 GCP 的服務可以由 GCP 來 maintain。</p>
+<hr>
+<p>💬 參考資料：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://engineering.linecorp.com/zh-hant/blog/how-to-develop-side-project-into-public-cloud">【從零開始養】透過 Side Project 增加你的能見度！以 LINE Bot 為例</a></li>
+</ol>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+                <div class="icon arrow-left"></div>
+                <div class="post-link">
+                    <a href="/2023/12/07/18-Google-Dev-Group-2023-note/">Prev</a>
+                </div>
+            
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2023/09/03/16-react-useref/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>

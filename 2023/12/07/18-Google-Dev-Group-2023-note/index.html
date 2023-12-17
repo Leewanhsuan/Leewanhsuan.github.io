@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【筆記】Google Dev Group Event 2023 | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/conference/">
+                            conference
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【筆記】Google Dev Group Event 2023
+            
+            
+        </div>
+        <span class="post-date">
+            12月 7, 2023
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <p>從還不是工程師的時候就一直是 Google 產品的重度使用者<br>很開心有來參加 Google Dev Group Event<br>還見到許多轉職時常看的大神像是 Will 保哥和高見龍</p>
+<p>以下簡單分享一整天下收穫多多的筆記：</p>
+<h2 id="💡-因為怕改壞，所以把-TDD-技能點滿了-Hsuanhao-Shopback"><a href="#💡-因為怕改壞，所以把-TDD-技能點滿了-Hsuanhao-Shopback" class="headerlink" title="💡 因為怕改壞，所以把 TDD 技能點滿了 - Hsuanhao (Shopback)"></a>💡 因為怕改壞，所以把 TDD 技能點滿了 - Hsuanhao (Shopback)</h2><p>其實這場分享主要是關於 Android 開發者的 TDD 測試經驗分享，講者主要分享了一些測試的架構與原則。</p>
+<h3 id="1-利用自動化測試來替代開發中的手動驗證：可以透過-FSM-Finite-state-machine-的概念來建立使用者行為流程測試"><a href="#1-利用自動化測試來替代開發中的手動驗證：可以透過-FSM-Finite-state-machine-的概念來建立使用者行為流程測試" class="headerlink" title="1. 利用自動化測試來替代開發中的手動驗證：可以透過 FSM (Finite-state machine)  的概念來建立使用者行為流程測試"></a>1. 利用自動化測試來替代開發中的手動驗證：可以透過 FSM (Finite-state machine)  的概念來建立使用者行為流程測試</h3><p>Finite-state machine，中文是有限狀態機，在這場講座第一次聽到這個名詞整個很霧煞煞，FSM 在工程的世界裡很長用來抽象化事情的「狀態」而不是單純的流程。關於這個概念可以參考這篇文章，我覺得解釋得很好懂！<a target="_blank" rel="noopener" href="https://medium.com/pm%E7%9A%84%E7%94%9F%E7%94%A2%E5%8A%9B%E5%B7%A5%E5%85%B7%E7%AE%B1/%E5%A6%82%E4%BD%95%E6%9C%89%E9%82%8F%E8%BC%AF%E7%9A%84%E9%87%90%E6%B8%85%E4%BA%8B%E7%89%A9%E7%9A%84%E7%8B%80%E6%85%8B-f9fb59b15054">如何有邏輯的釐清事物的狀態？學習 FSM 有限狀態機</a></p>
+<h3 id="2-洋蔥式階層架構來把責任抽象化：-view-ui-Layout-view-model-主要功能管道-Unit-test-Pure-Function-domain-model-api"><a href="#2-洋蔥式階層架構來把責任抽象化：-view-ui-Layout-view-model-主要功能管道-Unit-test-Pure-Function-domain-model-api" class="headerlink" title="2. 洋蔥式階層架構來把責任抽象化： view (ui Layout) - view model (主要功能管道 Unit test Pure Function) - domain model - api"></a>2. 洋蔥式階層架構來把責任抽象化： view (ui Layout) - view model (主要功能管道 Unit test Pure Function) - domain model - api</h3><h3 id="3-透過-Mock-ViewMock-來模擬-UI-狀態增加覆蓋率"><a href="#3-透過-Mock-ViewMock-來模擬-UI-狀態增加覆蓋率" class="headerlink" title="3. 透過 Mock ViewMock 來模擬 UI 狀態增加覆蓋率"></a>3. 透過 Mock ViewMock 來模擬 UI 狀態增加覆蓋率</h3><h3 id="4-外部系統不該-Mock：-外部系統包含串接後端的-API，應該要自己做-Domain-Model-重新定義欄位，才能做到解耦"><a href="#4-外部系統不該-Mock：-外部系統包含串接後端的-API，應該要自己做-Domain-Model-重新定義欄位，才能做到解耦" class="headerlink" title="4. 外部系統不該 Mock： 外部系統包含串接後端的 API，應該要自己做 Domain Model 重新定義欄位，才能做到解耦"></a>4. 外部系統不該 Mock： 外部系統包含串接後端的 API，應該要自己做 Domain Model 重新定義欄位，才能做到解耦</h3><h3 id="5-運用工具、設計和模組化來改善-Build-x2F-Test-Time"><a href="#5-運用工具、設計和模組化來改善-Build-x2F-Test-Time" class="headerlink" title="5. 運用工具、設計和模組化來改善 Build&#x2F;Test Time"></a>5. 運用工具、設計和模組化來改善 Build&#x2F;Test Time</h3><h2 id="💡-不可能的任務！在網頁-x2F-PWA-實現如-App-一樣原生體驗的-Bottom-sheets-使用-Google-IDX-范愷祐-x2F-Kyo-Fan、張淮竣"><a href="#💡-不可能的任務！在網頁-x2F-PWA-實現如-App-一樣原生體驗的-Bottom-sheets-使用-Google-IDX-范愷祐-x2F-Kyo-Fan、張淮竣" class="headerlink" title="💡 不可能的任務！在網頁&#x2F; PWA 實現如 App 一樣原生體驗的 Bottom sheets (使用 Google IDX) - 范愷祐&#x2F; Kyo Fan、張淮竣"></a>💡 不可能的任務！在網頁&#x2F; PWA 實現如 App 一樣原生體驗的 Bottom sheets (使用 Google IDX) - 范愷祐&#x2F; Kyo Fan、張淮竣</h2><p>這場分享的主題非常聚焦 Bottom sheets 的設計上，兩位來自 Open NCCU 的講者透過 Google IDX 與 Framer Motion 來實踐與設計師合作完成網頁上的 Bottom sheets 特效。</p>
+<h3 id="1-何謂-Bottom-Sheet："><a href="#1-何謂-Bottom-Sheet：" class="headerlink" title="1. 何謂 Bottom Sheet："></a>1. 何謂 Bottom Sheet：</h3><p>常用在原生 APP 中常見的 UI 設計，是一個可展開、收合的底部選單，能夠達到漸進式揭露，使用者可以決定是否要完全展開看到更多資訊，且可以輕鬆的滑入滑出。例如我們開啟 Safari 網頁點擊分享、Spotify 底下常駐的播放列都是 Bottom Sheet 的設計。</p>
+<p><img src="/images/GDG-note-01.png" alt="GDG"></p>
+<h3 id="2-合作上使用的工具："><a href="#2-合作上使用的工具：" class="headerlink" title="2. 合作上使用的工具："></a>2. 合作上使用的工具：</h3><p>(1). <a target="_blank" rel="noopener" href="https://idx.dev/">Project IDX</a><br>Project IDX 是在 Google Cloud 上打造的 Web 開發服務，單純透過瀏覽器就可以完成網頁的開發，同時已經支援 Angular、Next.js、React、Svelte 和 Flutter 等框架，只是目前我也還在等待清單中，如果成功取得服務再跟大家分享使用心得。</p>
+<p>(2). <a target="_blank" rel="noopener" href="https://www.framer.com/">Framer</a><br>Framer 是一個給設計師與前端工程師協助的好用工具，他可以做到高擬真的前端效果，包含點擊、滑動效果等等。</p>
+<h3 id="3-實踐-Bottom-Sheet-撇步："><a href="#3-實踐-Bottom-Sheet-撇步：" class="headerlink" title="3. 實踐 Bottom Sheet 撇步："></a>3. 實踐 Bottom Sheet 撇步：</h3><p>(1). Scroll to Drag: 需要預先算好 div 內的高度，用 Drag 模擬 Scroll，因為內部的 Scroll 會和整個區塊的拖曳打架<br>(2). Sticky Thumb + Shadow: 用兩個 Thumb 模擬 Scroll Overflow 效果</p>
+<h2 id="💡-Advanced-Knowledge-Management-with-Generative-AI-Michael-Chi"><a href="#💡-Advanced-Knowledge-Management-with-Generative-AI-Michael-Chi" class="headerlink" title="💡 Advanced Knowledge Management with Generative AI - Michael Chi"></a>💡 Advanced Knowledge Management with Generative AI - Michael Chi</h2><p>💬 <a target="_blank" rel="noopener" href="https://www.slideshare.net/MichaelChi2/devfest-taipei-advanced-ticketing-systempdf">講者分享簡報</a></p>
+<p>分享者 Michael 做了一個串接 Github issues 作爲 DataBase ，搜尋結果請語言模型列出，簡單來說使用者可以透過網頁搜尋一些關於程式的問題，可以得到對應的回覆與相關的 issues link，並串接 GA 可以簡單追蹤大家的使用行為。</p>
+<h3 id="1-Fetch-Relevant-DocumentsL-Documents-⇒-Embedding-⇒-PostgreSQL-Vector-Store-⇒-Give-Summary"><a href="#1-Fetch-Relevant-DocumentsL-Documents-⇒-Embedding-⇒-PostgreSQL-Vector-Store-⇒-Give-Summary" class="headerlink" title="1. Fetch Relevant DocumentsL Documents ⇒ Embedding ⇒ PostgreSQL Vector Store ⇒ Give Summary"></a>1. Fetch Relevant DocumentsL Documents ⇒ Embedding ⇒ PostgreSQL Vector Store ⇒ Give Summary</h3><h3 id="2-Considerations"><a href="#2-Considerations" class="headerlink" title="2. Considerations"></a>2. Considerations</h3><p>(1). Pre-generate Summary vs. Summarization on-the-fly (要等待語言模型回覆匙間)<br>(2). Full content Summary（內容完整） vs Segmentary Summary<br>(3). 判斷向量距離：Vector (Cosine, Euclidean, Native Inner Product)</p>
+<h2 id="💡-前端模組解放運動-高見龍"><a href="#💡-前端模組解放運動-高見龍" class="headerlink" title="💡 前端模組解放運動 - 高見龍"></a>💡 前端模組解放運動 - 高見龍</h2><p>💬 <a target="_blank" rel="noopener" href="https://speakerdeck.com/eddie/qian-duan-mo-zu-jie-fang-yun-dong-importmap">講者分享簡報</a></p>
+<p>透過 script tag 的 importmap 可以讓前端專案直接引入 CDN 資源檔案，前端不用 Build 一大包的 node_modules，聽起來很適合小型的專案或是靜態資源網頁，importmap 瀏覽器支援度也滿完整的。</p>
+<h3 id="1-使用-importmap："><a href="#1-使用-importmap：" class="headerlink" title="1. 使用 importmap："></a>1. 使用 importmap：</h3><p>(1). 優點：不用 Build 一大包的 node_modules<br>(2). 缺點：css 檔案無法 import (解決方案 Tailwind)<br>(3). 對 CDN 發出一堆 request 效能好嗎？⇒ 現在網頁載入小的 Bundle 平行載入速度快</p>
+<h3 id="2-實作-example"><a href="#2-實作-example" class="headerlink" title="2. 實作 example"></a>2. 實作 example</h3><p>(1). 小技巧：只 import 需要的東西 or CDN route</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">		<span class="keyword">import</span> &#123; sum &#125; <span class="keyword">from</span> <span class="string">&quot;./node_modules/...&quot;</span></span></span><br><span class="line"><span class="language-javascript">		<span class="keyword">import</span> sum <span class="keyword">from</span> <span class="string">&quot;./node_modules/.../sum&quot;</span></span></span><br><span class="line"><span class="language-javascript">		<span class="keyword">import</span> sum <span class="keyword">from</span>  <span class="variable constant_">CDN</span> <span class="title class_">Route</span></span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>(2). importmap</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;importmap&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="string">&quot;imports&quot;</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="string">&quot;shapes/&quot;</span>: <span class="string">&quot;./module/shapes/&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">      <span class="string">&quot;othershapes/&quot;</span>: <span class="string">&quot;https://example.com/modules/shapes/&quot;</span></span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">		<span class="keyword">import</span> test <span class="keyword">from</span> shapes/test.<span class="property">js</span></span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>(3). Scopes<br>scopes 允許設定一些特定的路徑，然後根據這些路徑來決定用哪個版本的 Module，開發者可以根據不同的使用場景或需求，靈活地使用不同版本的模塊，而不是只依賴於一個全局設定。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;importmap&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="string">&quot;imports&quot;</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="string">&quot;square&quot;</span>: <span class="string">&quot;./module/shapes/square.js&quot;</span></span></span><br><span class="line"><span class="language-javascript">    &#125;,</span></span><br><span class="line"><span class="language-javascript">    <span class="string">&quot;scopes&quot;</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="string">&quot;/modules/customshapes/&quot;</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="string">&quot;square&quot;</span>: <span class="string">&quot;https://example.com/modules/shapes/square.js&quot;</span></span></span><br><span class="line"><span class="language-javascript">      &#125;</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="💡-使用-Google-Ai-Studio-與-Gemini-API-快速打造-Generative-AI-原型設計-Will-保哥"><a href="#💡-使用-Google-Ai-Studio-與-Gemini-API-快速打造-Generative-AI-原型設計-Will-保哥" class="headerlink" title="💡 使用 Google Ai Studio 與 Gemini API 快速打造 Generative AI 原型設計 - Will 保哥"></a>💡 使用 Google Ai Studio 與 Gemini API 快速打造 Generative AI 原型設計 - Will 保哥</h2><p>💬 <a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1T-rBossVpr1M5mf5L8jWuIZlX5Qz_3UN/view">講者分享簡報</a></p>
+<p>這場分享了設計 Generative AI 的必要步驟，以及 Google Ai Studio 的操作方式和使用情境。</p>
+<h3 id="1-Prompt-Design"><a href="#1-Prompt-Design" class="headerlink" title="1. Prompt Design"></a>1. Prompt Design</h3><p>(1). 初始設計 → 測試 → 微調 → loop<br>(2). 參數微調：Temperature(Creativity), Safety Settings, Output length</p>
+<h3 id="2-程式開發"><a href="#2-程式開發" class="headerlink" title="2. 程式開發"></a>2. 程式開發</h3><p>(1). 設計 Prompt template<br>(2). 呼叫 LLM API</p>
+<p>以上就是一些零碎的筆記，希望對大家有幫助！！</p>
+<hr>
+<p>整場會議下來聽到最多次的 Keyword 就是 Google Ai Studio 和新推出的 Gemini Pro 語言模型，所以回家立課玩玩看，針對 Google Ai Studio 的操作方式和使用情境另外寫了一篇文章分享，感興趣的可以參考唷！</p>
+<p>💬 延伸參考：<a target="_blank" rel="noopener" href="https://leewanhsuan.github.io/2023/12/07/19-Google-Ai-Studio/">【分享】Google Ai Studio 超好上手 - 操作方式和使用情境介紹</a></p>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+                <div class="icon arrow-left"></div>
+                <div class="post-link">
+                    <a href="/2023/12/07/19-Google-Ai-Studio/">Prev</a>
+                </div>
+            
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2023/12/07/17-Coscup-2023-note/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>
