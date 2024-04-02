@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="珊迪">
+
+
+
+    <meta name="description" content="珊迪的部落格">
+
+
+
+
+
+<title>【圖解】不是 Ai 工程師，也能懂的 LLM Tuning Methods X ChatGPT Fine Tuning 實作 | Coding Gallery</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6QLXVTXMMM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6QLXVTXMMM');
+</script>
+
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Coding Gallery 👩‍🎨
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+                
+                    <span class="post-tag">
+                        <a href="/tags/Ai/">
+                            Ai
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/ChatGPT/">
+                            ChatGPT
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/%E5%A4%9A%E6%A8%A1%E6%85%8B%E5%A4%A7%E8%AA%9E%E8%A8%80%E6%A8%A1%E5%9E%8B/">
+                            多模態大語言模型
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/LLM/">
+                            LLM
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/Fine-Tuning/">
+                            Fine Tuning
+                        </a>
+                    </span>    
+                
+                    <span class="post-tag">
+                        <a href="/tags/RAG/">
+                            RAG
+                        </a>
+                    </span>    
+                           
+            
+        </div>
+        <div class="post-title">
+            
+            
+                【圖解】不是 Ai 工程師，也能懂的 LLM Tuning Methods X ChatGPT Fine Tuning 實作
+            
+            
+        </div>
+        <span class="post-date">
+            3月 30, 2024
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <h2 id="不是-Ai-工程師，也能懂的-LLM-Tuning-Methods"><a href="#不是-Ai-工程師，也能懂的-LLM-Tuning-Methods" class="headerlink" title="不是 Ai 工程師，也能懂的 LLM Tuning Methods"></a>不是 Ai 工程師，也能懂的 LLM Tuning Methods</h2><p>這篇文章的靈感來自年初參加的 AWS re:Invent 2023 re:Cap ，過去的我接觸的 Ai 都只是知道可用的被訓練好的模型、好操作的介面如 Chat GPT，以及設計自己的 Prompt ，而這次參加完一整天的主題分享，才知道原來還有這麼多我不熟悉的事，這篇文章不會探討得很深入，但可以讓跟我一樣可能只是前端工程師或是只是想了解 LLM 的人多了解一些！</p>
+<p>我們可以將針對 LLM Model 所做的操作分為 Prompt Engineering 、RAG、Fine Tuning 以及 Pre-training，他們分別的限制、優點還有最重要的成本花費不同，也是許多企業在選擇運用 LLM Model 時會考慮的，那接著以這張表簡單比較一下這四個 Methods。</p>
+<p><img src="/images/LLM-01.png" alt="LLM model"></p>
+<h2 id="Prompt-Engineering"><a href="#Prompt-Engineering" class="headerlink" title="Prompt Engineering"></a>Prompt Engineering</h2><p>Prompt Engineering 是指「設計和構建」一個提示或問題，讓語言模型的輸出更有效率，其實平時我們在問 Chat GPT 問題設計上就已經涵蓋了這個概念，我們會試著想要給予更好的提示以引導模型生成我們所期望的內容。</p>
+<p>這邊也提供 Open AI 針對 Prompt Engineering 提供的六項策略：</p>
+<ol>
+<li>寫下清晰的指示</li>
+<li>提供參考文字</li>
+<li>將複雜的任務拆分為更簡單的子任務</li>
+<li>給模型時間「思考」</li>
+<li>使用外部工具</li>
+<li>有系統地測試變更</li>
+</ol>
+<p>💬 關於 Prompt Engineering Tips 可以參考文件：<a target="_blank" rel="noopener" href="https://platform.openai.com/docs/guides/prompt-engineering/six-strategies-for-getting-better-results">Six strategies for getting better results</a></p>
+<h2 id="RAG（Retrieval-Augmented-Generation）"><a href="#RAG（Retrieval-Augmented-Generation）" class="headerlink" title="RAG（Retrieval Augmented Generation）"></a>RAG（Retrieval Augmented Generation）</h2><p>RAG 是檢索增強生成的意思，顧名思義是結合了「搜尋檢索」和「生成能力」的架構。透過這個架構，LLM（大型語言模型，以下簡稱 LLM ）可以從外部知識庫搜尋相關信息，然後使用這些信息來生成回應或完成特定的任務，有一種很好懂的說法是「大型語言模型的小抄」，讓他有跡可循，增強回覆的準確度。</p>
+<p>RAG 架構主要由兩個部分構成：</p>
+<ol>
+<li>檢索器：「搜尋檢索」負責從外部知識庫中檢索相關的知識訊息</li>
+<li>生成器：「生成能力」會利用檢索到的知識來生成回應</li>
+</ol>
+<p>RAG 將原本就很強大的 LLM 功能擴展到特定領域或組織的內部知識庫，「無需重新訓練模型」，可讓 LLM 在各種情況下準確且實用，非常適合具備特定 domain knowhow 的公司做使用。</p>
+<p>💬 關於 RAG 想了解更多的話超級推薦閱讀此篇文章：<a target="_blank" rel="noopener" href="https://blog.infuseai.io/rag-retrieval-augmented-generation-introduction-a5854cb6393e">RAG 檢索增強生成— 讓大型語言模型更聰明的秘密武器</a></p>
+<h2 id="Fine-Tuning-微調"><a href="#Fine-Tuning-微調" class="headerlink" title="Fine Tuning 微調"></a>Fine Tuning 微調</h2><p>微調在已經訓練好的模型基礎上，進一步調整，讓模型的輸出能夠更符合預期。透過微調，可以不用重新訓練一個新的模型，能夠省去訓練新模型的成本。</p>
+<p>Fine Tuning 優點：</p>
+<ol>
+<li>輸出結果品質更佳，比單純輸入 prompt 的質更好</li>
+<li>能夠在更多範例上進行訓練，超出單一提示的範圍</li>
+<li>由於提示更短，節省了 token 使用，進而降低成本</li>
+<li>請求的反應時間更短</li>
+</ol>
+<h2 id="Pre-training"><a href="#Pre-training" class="headerlink" title="Pre-training"></a>Pre-training</h2><p>最後 Pre-training 預訓練是上述成本最高的，也是我們常使用的 LLM 必經的歷程，Pre-training 是指在訓練模型以進行特定任務之前，首先對其進行「大規模、無監督或自監督」的學習過程。這個過程涉及讓模型閱讀大量文本數據，讓它學習理解語言的結構、詞彙、語法以及文本之間的關聯。預訓練的目的是讓模型獲得一個廣泛的語言理解基礎，從而在之後的任務中（比如回答問題、文本生成等）。</p>
+<h2 id="ChatGpt-自己動手微調看看"><a href="#ChatGpt-自己動手微調看看" class="headerlink" title="ChatGpt 自己動手微調看看"></a>ChatGpt 自己動手微調看看</h2><p>前面講了這麼多的 Methods，除了大家都知道的 Prompt Engineering，還有一個我們也可以自己操作的就是 ChatGPT 的 fine tuning，ChatGPT 付費版提供了 Fine-tuning API 直接供工程師去使用(體驗？)。</p>
+<h3 id="Fine-tuning-API-的-messages-格式主要有三點"><a href="#Fine-tuning-API-的-messages-格式主要有三點" class="headerlink" title="Fine tuning API 的 messages 格式主要有三點"></a>Fine tuning API 的 messages 格式主要有三點</h3><ol>
+<li>System<br>訓練內容的「角色」 目標是能提供一致的回覆風格</li>
+<li>User<br>輸入的問題（也就是用戶問 ChatGPT 的問題）</li>
+<li>Assistant<br>助手角色可以滿足各種用戶需求。例如，助手可以回答學術問題、撰寫文章、提供建議等</li>
+</ol>
+<h3 id="操作步驟"><a href="#操作步驟" class="headerlink" title="操作步驟"></a>操作步驟</h3><p>其實大家只要照著文件一步步，超容易就完成了簡單的微調測試，只是比較需要注意的是 Upload 檔案的時間實在是比預期的要久啊～～我是睡一覺起來才完成的。這是的示範文件我是以幽默的旅行家為角色去做訓練，只上傳了十筆檔案（因為上傳也是要算 Token 費用的…），雖然資料筆數不多但成效比我預期的顯著！</p>
+<p><img src="/images/fine-tuning-01.png" alt="Fine tuning"><br><img src="/images/fine-tuning-04.png" alt="Fine tuning"><br><img src="/images/fine-tuning-03.png" alt="Fine tuning"></p>
+<h3 id="Fine-tuning-Before-amp-After"><a href="#Fine-tuning-Before-amp-After" class="headerlink" title="Fine tuning Before &amp; After"></a>Fine tuning Before &amp; After</h3><p>有調教有差，至少改掉了 Chat GPT 冗言很多的特質 XD 不多說直接上 Before &amp; After 圖！！機智幽默的旅行家誕生 🥳🥳🥳</p>
+<p><img src="/images/fine-tuning-02.png" alt="Fine tuning"></p>
+<hr>
+<p>💬 參考資料：<br><a target="_blank" rel="noopener" href="https://taiwan.googleblog.com/2023/12/google-gemini.html">隆重推出 Gemini：我們最強大的 AI 模型</a></p>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+    window.onload = gtag();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2023/12/07/19-Google-Ai-Studio/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+     
+
+     
+    
+    
+
+</div>
+     
+  
+  <div>
+    <section id="comments" class="comments">
+      <style>
+        .utterances{max-width: 100%;}
+      </style>
+        <script src="https://utteranc.es/client.js"
+        repo="Leewanhsuan/coding_gallery_comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </section>
+</div>
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+            
+                珊迪 | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+  </body>
+</html>
